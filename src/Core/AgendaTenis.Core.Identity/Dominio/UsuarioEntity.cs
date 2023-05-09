@@ -1,6 +1,6 @@
 ﻿namespace AgendaTenis.Core.Identity.Dominio;
 
-public class Usuario
+public class UsuarioEntity
 {
     public Guid Id { get; set; }
     public string Email { get; set; }
