@@ -3,6 +3,7 @@ using AgendaTenis.Core.Identity.AcessoDados.Repositorios;
 using AgendaTenis.Core.Identity.Dominio;
 using AgendaTenis.Core.Identity.Token;
 using AgendaTenis.Core.Identity.Utils;
+using AgendaTenis.Core.Jogadores.AcessoDados;
 using AgendaTenis.WebApi.ContainerDI;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,9 @@ builder.Services.AddScoped<GeradorDeToken>();
 
 builder.Services.AddDbContext<IdentityDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("Identity")));
+
+builder.Services.AddDbContext<JogadoresDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Jogadores")));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
