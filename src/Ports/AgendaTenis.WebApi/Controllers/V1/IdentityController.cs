@@ -1,4 +1,5 @@
 ﻿using AgendaTenis.Core.Identity.Aplicacao.CriarConta;
+using AgendaTenis.Core.Identity.Aplicacao.GerarToken;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,15 +17,16 @@ public class IdentityController : ControllerBase
     }
 
     [HttpPost("CriarConta")]
-    public async Task<IActionResult> CriarConta()
+    public async Task<IActionResult> CriarConta(CriarContaCommand command)
     {
-        var response = await _mediator.Send(new CriarContaCommand());
-        return Ok();
+        var response = await _mediator.Send(command);
+        return Ok(response);
     }
 
     [HttpPost("GerarToken")]
-    public async Task<IActionResult> GerarToken()
+    public async Task<IActionResult> GerarToken(GerarTokenCommand command)
     {
-        return Ok();
+        var response = await _mediator.Send(command);
+        return Ok(response);
     }
 }

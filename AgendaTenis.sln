@@ -11,15 +11,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ports", "Ports", "{4D2C6B33
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4AB6E36A-B22F-49DD-8F69-F0AEC973F674}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaTenis.WebApi", "src\Ports\AgendaTenis.WebApi\AgendaTenis.WebApi.csproj", "{092B34C8-7B41-4C84-BACC-76F9A04C13A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaTenis.WebApi", "src\Ports\AgendaTenis.WebApi\AgendaTenis.WebApi.csproj", "{092B34C8-7B41-4C84-BACC-76F9A04C13A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaTenis.Core.Identity", "src\Core\AgendaTenis.Core.Identity\AgendaTenis.Core.Identity.csproj", "{2759BF61-FC20-4235-80B3-757153979F3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaTenis.Core.Identity", "src\Core\AgendaTenis.Core.Identity\AgendaTenis.Core.Identity.csproj", "{2759BF61-FC20-4235-80B3-757153979F3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaTenis.Core.Jogadores", "src\Core\AgendaTenis.Core.Jogadores\AgendaTenis.Core.Jogadores.csproj", "{6B2D6FBE-F49B-4DA6-BB52-77259DDE2A4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaTenis.Core.Jogadores", "src\Core\AgendaTenis.Core.Jogadores\AgendaTenis.Core.Jogadores.csproj", "{6B2D6FBE-F49B-4DA6-BB52-77259DDE2A4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaTenis.Core.Partidas", "src\Core\AgendaTenis.Core.Partidas\AgendaTenis.Core.Partidas.csproj", "{9A2CE7B5-EBEB-4D62-8E5F-E814134DEE0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaTenis.Core.Partidas", "src\Core\AgendaTenis.Core.Partidas\AgendaTenis.Core.Partidas.csproj", "{9A2CE7B5-EBEB-4D62-8E5F-E814134DEE0A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workers", "Workers", "{A14459A9-5FC2-4B93-A4E3-A984174A8E5B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9BA74979-5695-4108-83B5-A1D219E9DADB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{EA27D188-8B96-4808-91A5-8F5FC15BD4AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaTenis.BuildingBlocks.Notificacoes", "src\BuildingBlocks\AgendaTenis.BuildingBlocks.Notificacoes\AgendaTenis.BuildingBlocks.Notificacoes.csproj", "{08CEA0F4-DFE2-4067-9944-760385A16FD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +49,14 @@ Global
 		{9A2CE7B5-EBEB-4D62-8E5F-E814134DEE0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A2CE7B5-EBEB-4D62-8E5F-E814134DEE0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A2CE7B5-EBEB-4D62-8E5F-E814134DEE0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BA74979-5695-4108-83B5-A1D219E9DADB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA74979-5695-4108-83B5-A1D219E9DADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BA74979-5695-4108-83B5-A1D219E9DADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BA74979-5695-4108-83B5-A1D219E9DADB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08CEA0F4-DFE2-4067-9944-760385A16FD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08CEA0F4-DFE2-4067-9944-760385A16FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08CEA0F4-DFE2-4067-9944-760385A16FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08CEA0F4-DFE2-4067-9944-760385A16FD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +69,8 @@ Global
 		{6B2D6FBE-F49B-4DA6-BB52-77259DDE2A4C} = {4AB6E36A-B22F-49DD-8F69-F0AEC973F674}
 		{9A2CE7B5-EBEB-4D62-8E5F-E814134DEE0A} = {4AB6E36A-B22F-49DD-8F69-F0AEC973F674}
 		{A14459A9-5FC2-4B93-A4E3-A984174A8E5B} = {5B105EDF-6203-44DD-BD37-F6C3D00538DA}
+		{EA27D188-8B96-4808-91A5-8F5FC15BD4AD} = {5B105EDF-6203-44DD-BD37-F6C3D00538DA}
+		{08CEA0F4-DFE2-4067-9944-760385A16FD6} = {EA27D188-8B96-4808-91A5-8F5FC15BD4AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B012AF54-26D4-4B2C-9F43-2E81C76BEC97}

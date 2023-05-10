@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  agendatenis.webapi:
+    image: ${DOCKER_REGISTRY-}agendateniswebapi
+    build:
+      context: .
+      dockerfile: src/Ports/AgendaTenis.WebApi/Dockerfile
