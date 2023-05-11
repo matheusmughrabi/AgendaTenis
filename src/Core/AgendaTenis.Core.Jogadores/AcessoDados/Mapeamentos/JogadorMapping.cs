@@ -19,19 +19,13 @@ public class JogadorMapping : IEntityTypeConfiguration<JogadorEntity>
 
         builder.Property(c => c.Sobrenome)
              .IsRequired()
-             .HasColumnName("Nome")
+             .HasColumnName("Sobrenome")
              .HasColumnType("nvarchar(100)");
 
         builder
-            .HasOne(s => s.Localizacao)
-            .WithOne(ad => ad.Jogador)
-            .HasForeignKey<LocalizacaoEntity>(ad => ad.JogadorId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        builder
-            .HasOne(s => s.CaracteristicaDeJogo)
-            .WithOne(ad => ad.Jogador)
-            .HasForeignKey<CaracteristicaDeJogoEntity>(ad => ad.JogadorId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .HasOne(jogador => jogador.Pontuacao)
+            .WithOne(pontuacao => pontuacao.Jogador)
+            .HasForeignKey<PontuacaoEntity>(pontuacao => pontuacao.JogadorId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

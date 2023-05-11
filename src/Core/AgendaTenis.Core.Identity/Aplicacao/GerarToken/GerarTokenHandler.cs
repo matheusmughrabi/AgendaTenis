@@ -33,7 +33,7 @@ public class GerarTokenHandler : IRequestHandler<GerarTokenCommand, GerarTokenRe
         {
             var claims = new List<Claim>
             {
-                new Claim("Id", usuario.Id.ToString())
+                new Claim(ClaimTypes.Name, usuario.Id.ToString())
             };
 
             var token = _geradorDeToken.Gerar(claims);

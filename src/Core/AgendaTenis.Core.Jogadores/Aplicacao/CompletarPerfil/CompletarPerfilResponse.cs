@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AgendaTenis.BuildingBlocks.Notificacoes;
 
-namespace AgendaTenis.Core.Jogadores.Aplicacao.CompletarPerfil
+namespace AgendaTenis.Core.Jogadores.Aplicacao.CompletarPerfil;
+
+public class CompletarPerfilResponse
 {
-    internal class CompletarPerfilResponse
-    {
-    }
+    public bool Sucesso { get; set; }
+    public List<Notificacao> Notificacoes { get; set; }
 }

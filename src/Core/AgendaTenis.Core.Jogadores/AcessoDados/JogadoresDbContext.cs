@@ -12,12 +12,12 @@ public class JogadoresDbContext : DbContext
     }
 
     public DbSet<JogadorEntity> Jogador { get; set; }
+    public DbSet<PontuacaoEntity> Pontuacao { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new JogadorMapping());
-        modelBuilder.ApplyConfiguration(new LocalizacaoMapping());
-        modelBuilder.ApplyConfiguration(new CaracteristicaDeJogoMapping());
+        modelBuilder.ApplyConfiguration(new PontuacaoMapping());
 
         base.OnModelCreating(modelBuilder);
     }
