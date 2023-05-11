@@ -2,7 +2,7 @@
 
 public enum StatusPlacarEnum
 {
-    Pendente = 1,
+    AguardandoConfirmacao = 1,
     Aceito = 2,
     Contestado = 3
 }

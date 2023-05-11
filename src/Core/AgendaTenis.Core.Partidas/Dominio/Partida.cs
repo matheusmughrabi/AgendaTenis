@@ -1,7 +1,6 @@
 ﻿using AgendaTenis.Core.Partidas.Enums;
-using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using AgendaTenis.Core.Partidas.Aplicacao.RegistrarPlacar;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace AgendaTenis.Core.Partidas.Dominio;
 
@@ -36,7 +35,20 @@ public class Partida
         VencedorId = vencedorId;
         Sets = sets;
         JogadorWO = jogadorWO;
-        StatusPlacar = StatusPlacarEnum.Pendente;
+        StatusPlacar = StatusPlacarEnum.AguardandoConfirmacao;
+    }
+
+    public void ResponderPlacar(bool confirmar)
+    {
+        if (confirmar)
+        {
+            StatusPlacar = StatusPlacarEnum.Aceito;
+            // Publicar evento de placar confirmado
+        }
+        else
+        {
+            StatusPlacar = StatusPlacarEnum.Contestado;
+        }
     }
 
     public void ResponderConvite(StatusConviteEnum statusConvite)

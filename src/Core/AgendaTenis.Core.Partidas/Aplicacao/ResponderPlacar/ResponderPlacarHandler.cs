@@ -1,50 +1,51 @@
 ﻿using AgendaTenis.BuildingBlocks.Notificacoes;
+using AgendaTenis.Core.Partidas.Aplicacao.RegistrarPlacar;
 using AgendaTenis.Core.Partidas.Dominio;
 using AgendaTenis.Core.Partidas.Repositorios;
 using MediatR;
+using static AgendaTenis.Core.Partidas.Aplicacao.RegistrarPlacar.RegistrarPlacarCommand;
 
-namespace AgendaTenis.Core.Partidas.Aplicacao.RegistrarPlacar;
+namespace AgendaTenis.Core.Partidas.Aplicacao.ResponderPlacar;
 
-public class RegistrarPlacarHandler : IRequestHandler<RegistrarPlacarCommand, RegistrarPlacarResponse>
+public class ResponderPlacarHandler : IRequestHandler<ResponderPlacarCommand, ResponderPlacarResponse>
 {
     private readonly IPartidasRepositorio _partidaRepositorio;
 
-    public RegistrarPlacarHandler(IPartidasRepositorio partidaRepositorio)
+    public ResponderPlacarHandler(IPartidasRepositorio partidaRepositorio)
     {
         _partidaRepositorio = partidaRepositorio;
     }
 
-    public async Task<RegistrarPlacarResponse> Handle(RegistrarPlacarCommand request, CancellationToken cancellationToken)
+    public async Task<ResponderPlacarResponse> Handle(ResponderPlacarCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var partida = await _partidaRepositorio.ObterPorIdAsync(request.Id.ToString());
+            var partida = await _partidaRepositorio.ObterPorIdAsync(request.Id);
 
             var notificacoes = ExecutarValidacoes(partida);
             if (notificacoes.Any(c => c.Tipo == BuildingBlocks.Notificacoes.Enums.TipoNotificacaoEnum.Erro || c.Tipo == BuildingBlocks.Notificacoes.Enums.TipoNotificacaoEnum.Aviso))
             {
-                return new RegistrarPlacarResponse()
+                return new ResponderPlacarResponse()
                 {
                     Sucesso = false,
                     Notificacoes = notificacoes
                 };
             }
 
-            var sets = request.Sets.Select(c => new Set(c.NumeroSet, c.GamesDesafiante, c.GamesAdversario, c.TiebreakDesafiante, c.TiebreakAdversario)).ToList();
-            partida.RegistrarPlacar(request.VencedorId, sets, request.JogadorWO);
+            partida.ResponderPlacar(request.ConfirmarPlacar);
 
             var atualizou = await _partidaRepositorio.Update(partida);
 
             if (atualizou)
             {
-                return new RegistrarPlacarResponse()
+                return new ResponderPlacarResponse()
                 {
                     Sucesso = true
                 };
             }
             else
             {
-                return new RegistrarPlacarResponse()
+                return new ResponderPlacarResponse()
                 {
                     Sucesso = false,
                     Notificacoes = new List<BuildingBlocks.Notificacoes.Notificacao>()
@@ -60,7 +61,7 @@ public class RegistrarPlacarHandler : IRequestHandler<RegistrarPlacarCommand, Re
         }
         catch (Exception)
         {
-            return new RegistrarPlacarResponse()
+            return new ResponderPlacarResponse()
             {
                 Sucesso = false,
                 Notificacoes = new List<BuildingBlocks.Notificacoes.Notificacao>()
@@ -90,24 +91,10 @@ public class RegistrarPlacarHandler : IRequestHandler<RegistrarPlacarCommand, Re
             return notificacoes;
         }
 
-        if (partida.StatusConvite != Enums.StatusConviteEnum.Aceito)
+        if (partida.StatusPlacar != Enums.StatusPlacarEnum.AguardandoConfirmacao)
             notificacoes.Add(new BuildingBlocks.Notificacoes.Notificacao()
             {
-                Mensagem = "Não é possível atualizar o placar, pois o convite para a partida não foi aceito",
-                Tipo = BuildingBlocks.Notificacoes.Enums.TipoNotificacaoEnum.Aviso
-            });
-
-        if (DateTime.UtcNow > partida.DataDaPartida.ToUniversalTime())
-            notificacoes.Add(new BuildingBlocks.Notificacoes.Notificacao()
-            {
-                Mensagem = "Não é possível atualizar o placar, pois a partida ainda não aconteceu",
-                Tipo = BuildingBlocks.Notificacoes.Enums.TipoNotificacaoEnum.Aviso
-            });
-
-        if (partida.StatusPlacar != null)
-            notificacoes.Add(new BuildingBlocks.Notificacoes.Notificacao()
-            {
-                Mensagem = "Placar já foi registrado.",
+                Mensagem = "Não é possível atualizar o placar, pois o status não está Aguardando Confirmação.",
                 Tipo = BuildingBlocks.Notificacoes.Enums.TipoNotificacaoEnum.Aviso
             });
 
