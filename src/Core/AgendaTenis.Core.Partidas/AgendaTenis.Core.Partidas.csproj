@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Aplicacao\ConvitesPendentes\" />
     <Folder Include="Aplicacao\ResponderPlacar\" />
-    <Folder Include="Aplicacao\ResponderConvite\" />
   </ItemGroup>
 
   <ItemGroup>

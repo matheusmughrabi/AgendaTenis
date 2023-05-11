@@ -38,6 +38,11 @@ public class Partida
         JogadorWO = jogadorWO;
         StatusPlacar = StatusPlacarEnum.Pendente;
     }
+
+    public void ResponderConvite(StatusConviteEnum statusConvite)
+    {
+        StatusConvite = statusConvite;
+    }
 }
 
 public class Set

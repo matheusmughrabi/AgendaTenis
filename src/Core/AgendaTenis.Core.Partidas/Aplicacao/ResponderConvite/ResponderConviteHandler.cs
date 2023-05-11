@@ -3,18 +3,18 @@ using AgendaTenis.Core.Partidas.Dominio;
 using AgendaTenis.Core.Partidas.Repositorios;
 using MediatR;
 
-namespace AgendaTenis.Core.Partidas.Aplicacao.RegistrarPlacar;
+namespace AgendaTenis.Core.Partidas.Aplicacao.ResponderConvite;
 
-public class RegistrarPlacarHandler : IRequestHandler<RegistrarPlacarCommand, RegistrarPlacarResponse>
+public class ResponderConviteHandler : IRequestHandler<ResponderConviteCommand, ResponderConviteResponse>
 {
     private readonly IPartidasRepositorio _partidaRepositorio;
 
-    public RegistrarPlacarHandler(IPartidasRepositorio partidaRepositorio)
+    public ResponderConviteHandler(IPartidasRepositorio partidaRepositorio)
     {
         _partidaRepositorio = partidaRepositorio;
     }
 
-    public async Task<RegistrarPlacarResponse> Handle(RegistrarPlacarCommand request, CancellationToken cancellationToken)
+    public async Task<ResponderConviteResponse> Handle(ResponderConviteCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -23,28 +23,27 @@ public class RegistrarPlacarHandler : IRequestHandler<RegistrarPlacarCommand, Re
             var notificacoes = ExecutarValidacoes(partida);
             if (notificacoes.Any(c => c.Tipo == BuildingBlocks.Notificacoes.Enums.TipoNotificacaoEnum.Erro || c.Tipo == BuildingBlocks.Notificacoes.Enums.TipoNotificacaoEnum.Aviso))
             {
-                return new RegistrarPlacarResponse()
+                return new ResponderConviteResponse()
                 {
                     Sucesso = false,
                     Notificacoes = notificacoes
                 };
             }
 
-            var sets = request.Sets.Select(c => new Set(c.NumeroSet, c.GamesDesafiante, c.GamesAdversario, c.TiebreakDesafiante, c.TiebreakAdversario)).ToList();
-            partida.RegistrarPlacar(request.VencedorId, sets, request.JogadorWO);
+            partida.ResponderConvite(request.StatusConvite);
 
             var atualizou = await _partidaRepositorio.Update(partida);
 
             if (atualizou)
             {
-                return new RegistrarPlacarResponse()
+                return new ResponderConviteResponse()
                 {
                     Sucesso = true
                 };
             }
             else
             {
-                return new RegistrarPlacarResponse()
+                return new ResponderConviteResponse()
                 {
                     Sucesso = false,
                     Notificacoes = new List<BuildingBlocks.Notificacoes.Notificacao>()
@@ -60,7 +59,7 @@ public class RegistrarPlacarHandler : IRequestHandler<RegistrarPlacarCommand, Re
         }
         catch (Exception)
         {
-            return new RegistrarPlacarResponse()
+            return new ResponderConviteResponse()
             {
                 Sucesso = false,
                 Notificacoes = new List<BuildingBlocks.Notificacoes.Notificacao>()
@@ -73,6 +72,7 @@ public class RegistrarPlacarHandler : IRequestHandler<RegistrarPlacarCommand, Re
                     }
             };
         }
+        
     }
 
     private List<Notificacao> ExecutarValidacoes(Partida partida)
@@ -89,20 +89,6 @@ public class RegistrarPlacarHandler : IRequestHandler<RegistrarPlacarCommand, Re
 
             return notificacoes;
         }
-
-        if (partida.StatusConvite != Enums.StatusConviteEnum.Aceito)
-            notificacoes.Add(new BuildingBlocks.Notificacoes.Notificacao()
-            {
-                Mensagem = "Não é possível atualizar o placar, pois o convite para a partida não foi aceito",
-                Tipo = BuildingBlocks.Notificacoes.Enums.TipoNotificacaoEnum.Aviso
-            });
-
-        if (DateTime.UtcNow > partida.DataDaPartida.ToUniversalTime())
-            notificacoes.Add(new BuildingBlocks.Notificacoes.Notificacao()
-            {
-                Mensagem = "Não é possível atualizar o placar, pois a partida ainda não aconteceu",
-                Tipo = BuildingBlocks.Notificacoes.Enums.TipoNotificacaoEnum.Aviso
-            });
 
         return notificacoes;
     }
