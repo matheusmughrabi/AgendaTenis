@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AgendaTenis.Core.Partidas.Aplicacao.ConvidarParaPartida;
+using AgendaTenis.Core.Partidas.Aplicacao.RegistrarPlacar;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaTenis.WebApi.Controllers.V1;
@@ -7,16 +10,25 @@ namespace AgendaTenis.WebApi.Controllers.V1;
 [ApiController]
 public class PartidasController : ControllerBase
 {
-    [HttpPost("Convidar")]
-    public async Task<IActionResult> ConvidarParaPartida()
+    private readonly IMediator _mediator;
+
+    public PartidasController(IMediator mediator)
     {
-        return Ok();
+        _mediator = mediator;
+    }
+
+    [HttpPost("Convidar")]
+    public async Task<IActionResult> ConvidarParaPartida([FromBody] ConvidarParaPartidaCommand command)
+    {
+        var response = await _mediator.Send(command);
+        return Ok(response);
     }
 
     [HttpPut("Placar/Registrar")]
-    public async Task<IActionResult> RegistrarPlacar()
+    public async Task<IActionResult> RegistrarPlacar([FromBody] RegistrarPlacarCommand command)
     {
-        return Ok();
+        var response = await _mediator.Send(command);
+        return Ok(response);
     }
 
     [HttpPut("Placar/Responder")]

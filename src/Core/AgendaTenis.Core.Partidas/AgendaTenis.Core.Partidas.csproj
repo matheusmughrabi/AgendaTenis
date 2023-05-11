@@ -7,12 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Aplicacao\ConvidarParaPartida\" />
     <Folder Include="Aplicacao\ConvitesPendentes\" />
     <Folder Include="Aplicacao\ResponderPlacar\" />
-    <Folder Include="Aplicacao\RegistrarPlacar\" />
     <Folder Include="Aplicacao\ResponderConvite\" />
-    <Folder Include="Dominio\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\AgendaTenis.BuildingBlocks.Notificacoes\AgendaTenis.BuildingBlocks.Notificacoes.csproj" />
   </ItemGroup>
 
 </Project>

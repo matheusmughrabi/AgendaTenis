@@ -4,12 +4,14 @@ using AgendaTenis.Core.Identity.Dominio;
 using AgendaTenis.Core.Identity.Token;
 using AgendaTenis.Core.Identity.Utils;
 using AgendaTenis.Core.Jogadores.AcessoDados;
+using AgendaTenis.Core.Partidas.Repositorios;
 using AgendaTenis.WebApi.ContainerDI;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using System.Text;
 
 // Container de injeção de dependência
@@ -35,6 +37,13 @@ builder.Services.AddDbContext<IdentityDbContext>(options =>
 
 builder.Services.AddDbContext<JogadoresDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("Jogadores")));
+
+builder.Services.AddScoped<IMongoClient>(c =>
+{
+    return new MongoClient(builder.Configuration.GetConnectionString("Partidas"));
+});
+
+builder.Services.AddScoped<IPartidasRepositorio, PartidasRepositorio>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

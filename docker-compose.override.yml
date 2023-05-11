@@ -20,3 +20,11 @@ services:
       MSSQL_PID: "Developer"
     ports:
       - "1433:1433"
+
+  mongo:
+    image: mongo
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: MongoDB2023!
+    ports:
+    - "27017:27017"
