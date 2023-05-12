@@ -38,17 +38,9 @@ public class Partida
         StatusPlacar = StatusPlacarEnum.AguardandoConfirmacao;
     }
 
-    public void ResponderPlacar(bool confirmar)
+    public void ResponderPlacar(StatusPlacarEnum statusPlacar)
     {
-        if (confirmar)
-        {
-            StatusPlacar = StatusPlacarEnum.Aceito;
-            // Publicar evento de placar confirmado
-        }
-        else
-        {
-            StatusPlacar = StatusPlacarEnum.Contestado;
-        }
+        StatusPlacar = statusPlacar;
     }
 
     public void ResponderConvite(StatusConviteEnum statusConvite)

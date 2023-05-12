@@ -28,3 +28,15 @@ services:
         MONGO_INITDB_ROOT_PASSWORD: MongoDB2023!
     ports:
     - "27017:27017"
+
+  rabbitmq3:
+    container_name: "agendatenis_rabbitmq"
+    image: rabbitmq:3-management-alpine
+    environment:
+    - RABBITMQ_DEFAULT_USER=guest
+    - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+    # Porta AMPQ
+    - '5672:5672'
+    # Porta Painel Rabbit
+    - '15672:15672'

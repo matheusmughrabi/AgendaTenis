@@ -2,6 +2,7 @@
 using AgendaTenis.Core.Partidas.Aplicacao.ConvitesPendentes;
 using AgendaTenis.Core.Partidas.Aplicacao.RegistrarPlacar;
 using AgendaTenis.Core.Partidas.Aplicacao.ResponderConvite;
+using AgendaTenis.Core.Partidas.Aplicacao.ResponderPlacar;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,9 +35,10 @@ public class PartidasController : ControllerBase
     }
 
     [HttpPut("Placar/Responder")]
-    public async Task<IActionResult> ResponderPlacar()
+    public async Task<IActionResult> ResponderPlacar([FromBody] ResponderPlacarCommand command)
     {
-        return Ok();
+        var response = await _mediator.Send(command);
+        return Ok(response);
     }
 
     [HttpGet("Convites/Pendentes")]

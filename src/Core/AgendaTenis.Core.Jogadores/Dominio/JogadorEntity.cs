@@ -1,4 +1,6 @@
-﻿namespace AgendaTenis.Core.Jogadores.Dominio;
+﻿using AgendaTenis.Core.Jogadores.Exceptions;
+
+namespace AgendaTenis.Core.Jogadores.Dominio;
 
 public class JogadorEntity : Entity
 {
@@ -45,4 +47,23 @@ public class JogadorEntity : Entity
     public string EstiloDeJogo { get; private set; }
     public PontuacaoEntity Pontuacao { get; private set; }
     public Guid? PontuacaoId { get; private set; }
+
+    public void AtualizarPontuacaoVencedor()
+    {
+        if (Pontuacao is null)
+            throw new PontuacaoNullException($"Pontuação do jogador {this.Id} é um objeto nulo");
+
+        // Esse valor chumbado no código talvez pudesse ser repensado.
+        // Talvez criar uma classe estática ou então criar uma tabela de configuração de pontos em caso de vitória ou derrota
+        // Mas para deixar a aplicação mais simples, resolvi deixar aqui no código
+        Pontuacao.AtualizarPontuacao(10);
+    }
+
+    public void AtualizarPontuacaoPerdedor()
+    {
+        if (Pontuacao is null)
+            throw new PontuacaoNullException($"Pontuação do jogador {this.Id} é um objeto nulo");
+
+        Pontuacao.AtualizarPontuacao(-10);
+    }
 }

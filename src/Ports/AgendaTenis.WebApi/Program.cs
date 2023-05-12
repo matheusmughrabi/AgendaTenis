@@ -1,9 +1,12 @@
+using AgendaTenis.BuildingBlocks.EventBus.Configuracao;
+using AgendaTenis.BuildingBlocks.EventBus.Servicos;
 using AgendaTenis.Core.Identity.AcessoDados;
 using AgendaTenis.Core.Identity.AcessoDados.Repositorios;
 using AgendaTenis.Core.Identity.Dominio;
 using AgendaTenis.Core.Identity.Token;
 using AgendaTenis.Core.Identity.Utils;
 using AgendaTenis.Core.Jogadores.AcessoDados;
+using AgendaTenis.Core.Partidas.Eventos.Publishers;
 using AgendaTenis.Core.Partidas.Repositorios;
 using AgendaTenis.WebApi.ContainerDI;
 using Microsoft.AspNetCore.Identity;
@@ -42,6 +45,10 @@ builder.Services.AddScoped<IMongoClient>(c =>
 {
     return new MongoClient(builder.Configuration.GetConnectionString("Partidas"));
 });
+
+builder.Services.Configure<RabbitMQConfiguracao>(builder.Configuration.GetSection("RabbitMQ"));
+builder.Services.AddSingleton<IMessageBus, RabbitMessageBus>();
+builder.Services.AddScoped<PlacarConfirmadoPublisher>();
 
 builder.Services.AddScoped<IPartidasRepositorio, PartidasRepositorio>();
 

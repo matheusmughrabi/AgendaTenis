@@ -16,23 +16,12 @@ public class PontuacaoEntity : Entity
     public JogadorEntity Jogador { get; private set; }
     public double PontuacaoAtual { get; private set; }
 
-    public CategoriaEnum ObterCategoria()
+    public void AtualizarPontuacao(double pontos)
     {
-        if (PontuacaoAtual > 1000)
-        {
-            return CategoriaEnum.Atp;
-        }
-        else if(PontuacaoAtual > 750)
-        {
-            return CategoriaEnum.Avancado;
-        }
-        else if (PontuacaoAtual > 500)
-        {
-            return CategoriaEnum.Intermediario;
-        }
-        else
-        {
-            return CategoriaEnum.Iniciante;
-        }
+        PontuacaoAtual += pontos;
+
+        // Se o jogador está com zero pontos e perder o jogo ele continua com zero. Não vamos deixar ele com uma pontuação negativa.
+        if (PontuacaoAtual < 0)
+            PontuacaoAtual = 0;
     }
 }

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\AgendaTenis.BuildingBlocks.EventBus\AgendaTenis.BuildingBlocks.EventBus.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\AgendaTenis.BuildingBlocks.Notificacoes\AgendaTenis.BuildingBlocks.Notificacoes.csproj" />
   </ItemGroup>
 
