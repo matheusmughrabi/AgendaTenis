@@ -7,6 +7,7 @@ public class BuscarAdversariosResponse
     public class Adversario
     {
         public Guid Id { get; set; }
+        public Guid UsuarioId { get; set; }
         public string NomeCompleto { get; set; }
     }
 }

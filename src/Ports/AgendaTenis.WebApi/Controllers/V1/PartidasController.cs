@@ -1,5 +1,7 @@
-﻿using AgendaTenis.Core.Partidas.Aplicacao.ConvidarParaPartida;
+﻿using AgendaTenis.Core.Partidas.Aplicacao.ConfirmacoesDePlacarPendentes;
+using AgendaTenis.Core.Partidas.Aplicacao.ConvidarParaPartida;
 using AgendaTenis.Core.Partidas.Aplicacao.ConvitesPendentes;
+using AgendaTenis.Core.Partidas.Aplicacao.HistoricoDePartidas;
 using AgendaTenis.Core.Partidas.Aplicacao.RegistrarPlacar;
 using AgendaTenis.Core.Partidas.Aplicacao.ResponderConvite;
 using AgendaTenis.Core.Partidas.Aplicacao.ResponderPlacar;
@@ -19,6 +21,14 @@ public class PartidasController : ControllerBase
     public PartidasController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    [HttpGet("Historico")]
+    [Authorize]
+    public async Task<IActionResult> HistoricoDePartidas(int pagina, int itensPorPagina)
+    {
+        var response = await _mediator.Send(new ObterHistoricoDePartidasCommand() { UsuarioId = this.User.Identity.Name, Pagina = pagina, ItensPorPagina = itensPorPagina });
+        return Ok(response);
     }
 
     [HttpPost("Convites/Convidar")]
@@ -50,9 +60,17 @@ public class PartidasController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("Placar/Pendentes")]
+    [Authorize]
+    public async Task<IActionResult> ObterConfirmacaoDePlacarPendentes()
+    {
+        var response = await _mediator.Send(new ObterConfirmacoesDePlacarPendentesCommand() { UsuarioId = this.User.Identity.Name });
+        return Ok(response);
+    }
+
     [HttpPut("Placar/Registrar")]
     [Authorize]
-    public async Task<IActionResult> RegistrarPlacar([FromServices] JogadorDaPartidaPoliceHandler policeHandler, [FromBody] RegistrarPlacarCommand command)
+    public async Task<IActionResult> RegistrarPlacar([FromServices] DesafianteDaPartidaPoliceHandler policeHandler, [FromBody] RegistrarPlacarCommand command)
     {
         var usuarioEhJogadorDaPartida = await policeHandler.Validar(command.Id);
         if (!usuarioEhJogadorDaPartida)
@@ -64,7 +82,7 @@ public class PartidasController : ControllerBase
 
     [HttpPut("Placar/Responder")]
     [Authorize]
-    public async Task<IActionResult> ResponderPlacar([FromServices] JogadorDaPartidaPoliceHandler policeHandler, [FromBody] ResponderPlacarCommand command)
+    public async Task<IActionResult> ResponderPlacar([FromServices] AdversarioDaPartidaPoliceHandler policeHandler, [FromBody] ResponderPlacarCommand command)
     {
         var usuarioEhJogadorDaPartida = await policeHandler.Validar(command.Id);
         if (!usuarioEhJogadorDaPartida)

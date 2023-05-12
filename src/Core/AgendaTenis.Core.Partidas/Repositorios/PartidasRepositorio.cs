@@ -2,6 +2,7 @@
 using AgendaTenis.Core.Partidas.Enums;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Collections.Generic;
 
 namespace AgendaTenis.Core.Partidas.Repositorios;
 
@@ -42,6 +43,18 @@ public class PartidasRepositorio : IPartidasRepositorio
         return partidas;
     }
 
+    public async Task<List<Partida>> ObterConfirmacoesDePlacarPendentes(string usuarioId)
+    {
+        var filter = Builders<Partida>.Filter.And(
+                Builders<Partida>.Filter.Eq(c => c.AdversarioId, usuarioId),
+                Builders<Partida>.Filter.Eq(c => c.StatusPlacar, StatusPlacarEnum.AguardandoConfirmacao)
+            );
+
+        var partidas = await _partidasCollection.Find(filter).ToListAsync();
+
+        return partidas;
+    }
+
     public async Task InsertAsync(Partida partida)
     {
         if (partida is null)
@@ -56,5 +69,18 @@ public class PartidasRepositorio : IPartidasRepositorio
         var result = await _partidasCollection.ReplaceOneAsync(filter, partida);
 
         return result.ModifiedCount > 0;
+    }
+
+    public async Task<List<Partida>> ObterPartidasPaginado(string usuarioId, int pagina, int itensPorPagina)
+    {
+        var filter = Builders<Partida>.Filter.Or(
+                   Builders<Partida>.Filter.Eq(c => c.DesafianteId, usuarioId),
+                   Builders<Partida>.Filter.Eq(c => c.AdversarioId, usuarioId)
+                );
+
+        int skip = (pagina - 1) * itensPorPagina;
+        var partidas = _partidasCollection.Find(filter).Skip(skip).Limit(itensPorPagina).ToList();
+
+        return partidas;
     }
 }

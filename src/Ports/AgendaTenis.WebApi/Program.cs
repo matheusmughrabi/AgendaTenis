@@ -85,7 +85,7 @@ builder.Services.AddSwaggerGen(option =>
 builder.Services.RegistrarAutenticacao(builder.Configuration);
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddScoped<JogadorDaPartidaPoliceHandler>();
+builder.Services.AddScoped<DesafianteDaPartidaPoliceHandler>();
 builder.Services.AddScoped<AdversarioDaPartidaPoliceHandler>();
 
 var app = builder.Build();

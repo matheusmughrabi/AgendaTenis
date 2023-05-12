@@ -31,6 +31,7 @@ public class BuscarAdversariosHandler : IRequestHandler<BuscarAdversariosCommand
             .Select(p => new BuscarAdversariosResponse.Adversario()
             {
                 Id = p.Id,
+                UsuarioId = p.UsuarioId,
                 NomeCompleto = $"{p.Nome} {p.Sobrenome}"
             }).ToListAsync();
 
