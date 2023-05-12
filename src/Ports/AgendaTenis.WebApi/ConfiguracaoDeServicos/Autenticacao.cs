@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace AgendaTenis.WebApi.ContainerDI;
+namespace AgendaTenis.WebApi.ConfiguracaoDeServicos;
 
 public static class Autenticacao
 {

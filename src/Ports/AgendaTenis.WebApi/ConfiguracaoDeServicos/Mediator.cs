@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace AgendaTenis.WebApi.ContainerDI;
+namespace AgendaTenis.WebApi.ConfiguracaoDeServicos;
 
 public static class Mediator
 {
