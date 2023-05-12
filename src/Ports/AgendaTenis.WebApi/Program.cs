@@ -1,34 +1,16 @@
-using AgendaTenis.WebApi.ConfiguracaoDeServicos;
+using AgendaTenis.WebApi;
 
-// Container de injeção de dependência
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.RegistrarMediator();
-builder.Services.RegistrarSwagger();
-builder.Services.RegistrarIdentity(builder.Configuration);
-builder.Services.RegistrarJogadores(builder.Configuration);
-builder.Services.RegistrarPartidas(builder.Configuration);
-builder.Services.RegistrarMessageBus(builder.Configuration);
-builder.Services.RegistrarAutenticacao(builder.Configuration);
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.RegistrarPolices();
-
-var app = builder.Build();
-
-// Pipeline dos requests
-if (app.Environment.IsDevelopment())
+public class Program
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public static void Main(string[] args)
+    {
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
