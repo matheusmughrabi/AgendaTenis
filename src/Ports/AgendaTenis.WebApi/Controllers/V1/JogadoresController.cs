@@ -47,9 +47,10 @@ public class JogadoresController : ControllerBase
     }
 
     [HttpGet("Resumo")]
-    public async Task<IActionResult> ObterResumoJogador(Guid usuarioId)
+    [Authorize]
+    public async Task<IActionResult> ObterResumoJogador()
     {
-        var request = new ObterResumoJogadorCommand() { UsuarioId = usuarioId };
+        var request = new ObterResumoJogadorCommand() { UsuarioId = Guid.Parse(this.User.Identity.Name) };
         var response = await _mediator.Send(request);
         return Ok(response);
     }

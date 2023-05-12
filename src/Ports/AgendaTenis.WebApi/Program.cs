@@ -9,9 +9,9 @@ using AgendaTenis.Core.Jogadores.AcessoDados;
 using AgendaTenis.Core.Partidas.Eventos.Publishers;
 using AgendaTenis.Core.Partidas.Repositorios;
 using AgendaTenis.WebApi.ContainerDI;
+using AgendaTenis.WebApi.Polices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
@@ -83,6 +83,10 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 builder.Services.RegistrarAutenticacao(builder.Configuration);
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<JogadorDaPartidaPoliceHandler>();
+builder.Services.AddScoped<AdversarioDaPartidaPoliceHandler>();
 
 var app = builder.Build();
 

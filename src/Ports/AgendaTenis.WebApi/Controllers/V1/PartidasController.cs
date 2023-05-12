@@ -3,8 +3,9 @@ using AgendaTenis.Core.Partidas.Aplicacao.ConvitesPendentes;
 using AgendaTenis.Core.Partidas.Aplicacao.RegistrarPlacar;
 using AgendaTenis.Core.Partidas.Aplicacao.ResponderConvite;
 using AgendaTenis.Core.Partidas.Aplicacao.ResponderPlacar;
+using AgendaTenis.WebApi.Polices;
 using MediatR;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaTenis.WebApi.Controllers.V1;
@@ -20,37 +21,55 @@ public class PartidasController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost("Convidar")]
+    [HttpPost("Convites/Convidar")]
+    [Authorize]
     public async Task<IActionResult> ConvidarParaPartida([FromBody] ConvidarParaPartidaCommand command)
     {
+        command.DesafianteId = Guid.Parse(this.User.Identity.Name);
         var response = await _mediator.Send(command);
         return Ok(response);
     }
 
-    [HttpPut("Placar/Registrar")]
-    public async Task<IActionResult> RegistrarPlacar([FromBody] RegistrarPlacarCommand command)
+    [HttpPut("Convites/Responder")]
+    [Authorize]
+    public async Task<IActionResult> ResponderConvite([FromServices] AdversarioDaPartidaPoliceHandler policeHandler, [FromBody] ResponderConviteCommand command)
     {
-        var response = await _mediator.Send(command);
-        return Ok(response);
-    }
+        var usuarioEhAdversarioDaPartida = await policeHandler.Validar(command.Id);
+        if (!usuarioEhAdversarioDaPartida)
+            return Unauthorized();
 
-    [HttpPut("Placar/Responder")]
-    public async Task<IActionResult> ResponderPlacar([FromBody] ResponderPlacarCommand command)
-    {
         var response = await _mediator.Send(command);
         return Ok(response);
     }
 
     [HttpGet("Convites/Pendentes")]
-    public async Task<IActionResult> ConvitesPendentes(string usuarioId)
+    [Authorize]
+    public async Task<IActionResult> ConvitesPendentes()
     {
-        var response = await _mediator.Send(new ObterConvitesPendentesCommand() { UsuarioId = usuarioId });
+        var response = await _mediator.Send(new ObterConvitesPendentesCommand() { UsuarioId = this.User.Identity.Name });
         return Ok(response);
     }
 
-    [HttpPut("Convites/Responder")]
-    public async Task<IActionResult> ResponderConvite([FromBody] ResponderConviteCommand command)
+    [HttpPut("Placar/Registrar")]
+    [Authorize]
+    public async Task<IActionResult> RegistrarPlacar([FromServices] JogadorDaPartidaPoliceHandler policeHandler, [FromBody] RegistrarPlacarCommand command)
     {
+        var usuarioEhJogadorDaPartida = await policeHandler.Validar(command.Id);
+        if (!usuarioEhJogadorDaPartida)
+            return Unauthorized();
+
+        var response = await _mediator.Send(command);
+        return Ok(response);
+    }
+
+    [HttpPut("Placar/Responder")]
+    [Authorize]
+    public async Task<IActionResult> ResponderPlacar([FromServices] JogadorDaPartidaPoliceHandler policeHandler, [FromBody] ResponderPlacarCommand command)
+    {
+        var usuarioEhJogadorDaPartida = await policeHandler.Validar(command.Id);
+        if (!usuarioEhJogadorDaPartida)
+            return Unauthorized();
+
         var response = await _mediator.Send(command);
         return Ok(response);
     }
