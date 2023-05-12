@@ -1,5 +1,6 @@
 ﻿using AgendaTenis.Core.Jogadores.Aplicacao.BuscarAdversarios;
 using AgendaTenis.Core.Jogadores.Aplicacao.CompletarPerfil;
+using AgendaTenis.Core.Jogadores.Aplicacao.ObterResumoJogador;
 using AgendaTenis.Core.Jogadores.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -46,8 +47,10 @@ public class JogadoresController : ControllerBase
     }
 
     [HttpGet("Resumo")]
-    public async Task<IActionResult> ObterResumoJogador()
+    public async Task<IActionResult> ObterResumoJogador(Guid usuarioId)
     {
-        return Ok();
+        var request = new ObterResumoJogadorCommand() { UsuarioId = usuarioId };
+        var response = await _mediator.Send(request);
+        return Ok(response);
     }
 }

@@ -57,4 +57,24 @@ public class CategoriaRegras
             };
         }
     }
+
+    public CategoriaEnum ObterCategoria(double pontuacao)
+    {
+        if (pontuacao >= 1000)
+        {
+            return CategoriaEnum.Atp;
+        }
+        else if (pontuacao >= 750)
+        {
+            return CategoriaEnum.Avancado;
+        }
+        else if (pontuacao >= 500)
+        {
+            return CategoriaEnum.Intermediario;
+        }
+        else
+        {
+            return CategoriaEnum.Iniciante;
+        }
+    }
 }
