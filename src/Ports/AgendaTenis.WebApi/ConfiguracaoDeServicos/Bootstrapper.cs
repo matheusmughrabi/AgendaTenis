@@ -7,8 +7,7 @@ public static class Bootstrapper
 {
     public static void RegistrarBootstrappers(this IServiceCollection services)
     {
-        services.AddSingleton<ProcessadorDeBootstrappers>();
-        services.AddSingleton<IBootstrapper, IdentityBootstrapper>();
-        services.AddSingleton<IBootstrapper, JogadoresBootstrapper>();
+        services.AddScoped<BootstrapperService>();
+        services.AddScoped<IBootstrapper, IdentityBootstrapper>();
     }
 }

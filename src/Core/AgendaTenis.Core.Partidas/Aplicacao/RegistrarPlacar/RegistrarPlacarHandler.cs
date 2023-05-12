@@ -97,7 +97,7 @@ public class RegistrarPlacarHandler : IRequestHandler<RegistrarPlacarCommand, Re
                 Tipo = BuildingBlocks.Notificacoes.Enums.TipoNotificacaoEnum.Aviso
             });
 
-        if (DateTime.UtcNow > partida.DataDaPartida.ToUniversalTime())
+        if (DateTime.UtcNow < partida.DataDaPartida.ToUniversalTime())
             notificacoes.Add(new BuildingBlocks.Notificacoes.Notificacao()
             {
                 Mensagem = "Não é possível atualizar o placar, pois a partida ainda não aconteceu",

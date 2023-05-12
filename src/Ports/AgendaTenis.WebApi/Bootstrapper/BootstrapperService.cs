@@ -2,11 +2,11 @@
 
 namespace AgendaTenis.WebApi.Bootstrapper;
 
-public class ProcessadorDeBootstrappers
+public class BootstrapperService
 {
     private IEnumerable<IBootstrapper> _bootstrappers;
 
-    public ProcessadorDeBootstrappers(IEnumerable<IBootstrapper> bootstrappers)
+    public BootstrapperService(IEnumerable<IBootstrapper> bootstrappers)
     {
         _bootstrappers = bootstrappers;
     }
@@ -15,7 +15,7 @@ public class ProcessadorDeBootstrappers
     {
         foreach (var bootstrapper in _bootstrappers)
         {
-            bootstrapper.Inicializar();
+            bootstrapper.Inicializar().GetAwaiter().GetResult();    
         }
     }
 }

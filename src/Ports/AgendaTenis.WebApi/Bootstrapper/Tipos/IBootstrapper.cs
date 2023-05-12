@@ -2,5 +2,5 @@
 
 public interface IBootstrapper
 {
-    void Inicializar();
+    Task Inicializar();
 }
