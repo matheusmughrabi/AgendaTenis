@@ -16,8 +16,6 @@ public class ObterResumoJogadorHandler : IRequestHandler<ObterResumoJogadorComma
 
     public async Task<ObterResumoJogadorResponse> Handle(ObterResumoJogadorCommand request, CancellationToken cancellationToken)
     {
-        var categoriaRegras = new CategoriaRegras();
-
         var jogador = await _jogadoresDbContext.Jogador
             .AsNoTracking()
             .Where(c => c.UsuarioId == request.UsuarioId)
@@ -34,7 +32,8 @@ public class ObterResumoJogadorHandler : IRequestHandler<ObterResumoJogadorComma
             Id = jogador.Id,
             NomeCompleto = jogador.NomeCompleto,
             Idade = CalcularIdade(jogador.DataNascimento),
-            Categoria = categoriaRegras.ObterCategoria(jogador.Pontuacao)
+            Pontuacao = jogador.Pontuacao,
+            Categoria = jogador.Pontuacao.ObterCategoria()
         };
 
         return response;
@@ -51,12 +50,15 @@ public class ObterResumoJogadorHandler : IRequestHandler<ObterResumoJogadorComma
 
         return idade;
     }
+
+    // Criei esta classe apenas para auxiliar a fazer a query com o Entity Framework
+    public class ObterResumoQueryModel
+    {
+        public Guid Id { get; set; }
+        public string NomeCompleto { get; set; }
+        public DateTime DataNascimento { get; set; }
+        public double Pontuacao { get; set; }
+    }
 }
 
-public class ObterResumoQueryModel
-{
-    public Guid Id { get; set; }
-    public string NomeCompleto { get; set; }
-    public DateTime DataNascimento { get; set; }
-    public double Pontuacao { get; set; }
-}
+

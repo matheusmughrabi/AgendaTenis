@@ -16,28 +16,46 @@ public class BuscarAdversariosHandler : IRequestHandler<BuscarAdversariosCommand
 
     public async Task<BuscarAdversariosResponse> Handle(BuscarAdversariosCommand request, CancellationToken cancellationToken)
     {
-        var categoriaRegras = new CategoriaRegras();
-        var pontuacaoMinima = categoriaRegras.ObterPontuacaoMinima(request.Categoria.GetValueOrDefault());
-        var pontuacaoMaxima = categoriaRegras.ObterPontuacaoMaxima(request.Categoria.GetValueOrDefault());
+        var pontuacaoMinima = request.Categoria.GetValueOrDefault().ObterPontuacaoMinima();
+        var pontuacaoMaxima = request.Categoria.GetValueOrDefault().ObterPontuacaoMaxima();
 
         var adversarios = await _jogadoresDbContext.Jogador
             .AsNoTracking()
-            .Include(c => c.Pontuacao)
             .Where(c => c.UsuarioId != request.UsuarioId
                         && c.Pais == request.Pais
                         && c.Estado == request.Estado
                         && c.Cidade == request.Cidade
                         && (request.Categoria == null || (c.Pontuacao.PontuacaoAtual >= pontuacaoMinima && c.Pontuacao.PontuacaoAtual <= pontuacaoMaxima)))
-            .Select(p => new BuscarAdversariosResponse.Adversario()
+            .Select(p => new AdversarioQueryModel()
             {
                 Id = p.Id,
                 UsuarioId = p.UsuarioId,
-                NomeCompleto = $"{p.Nome} {p.Sobrenome}"
+                NomeCompleto = $"{p.Nome} {p.Sobrenome}",
+                Pontuacao = p.Pontuacao.PontuacaoAtual
             }).ToListAsync();
 
-        return new BuscarAdversariosResponse()
+        var response = new BuscarAdversariosResponse()
         {
-            Adversarios = adversarios
+            Adversarios = adversarios.Select(p => new BuscarAdversariosResponse.Adversario()
+            {
+                Id = p.Id,
+                UsuarioId = p.UsuarioId,
+                NomeCompleto = p.NomeCompleto,
+                Pontuacao = p.Pontuacao,
+                Categoria = p.Pontuacao.ObterCategoria()
+            }).ToList()
         };
+
+        return response;
+    }
+
+    // Criei esta classe apenas para auxiliar a fazer a query com o Entity Framework
+    public class AdversarioQueryModel
+    {
+        public Guid Id { get; set; }
+        public Guid UsuarioId { get; set; }
+        public string NomeCompleto { get; set; }
+        public DateTime DataNascimento { get; set; }
+        public double Pontuacao { get; set; }
     }
 }

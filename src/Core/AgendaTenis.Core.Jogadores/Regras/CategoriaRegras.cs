@@ -2,9 +2,9 @@
 
 namespace AgendaTenis.Core.Jogadores.Regras;
 
-public class CategoriaRegras
+public static class CategoriaRegras
 {
-    public double ObterPontuacaoMinima(CategoriaEnum categoria)
+    public static double ObterPontuacaoMinima(this CategoriaEnum categoria)
     {
         switch (categoria)
         {
@@ -31,7 +31,7 @@ public class CategoriaRegras
         }
     }
 
-    public double ObterPontuacaoMaxima(CategoriaEnum categoria)
+    public static double ObterPontuacaoMaxima(this CategoriaEnum categoria)
     {
         switch (categoria)
         {
@@ -58,7 +58,7 @@ public class CategoriaRegras
         }
     }
 
-    public CategoriaEnum ObterCategoria(double pontuacao)
+    public static CategoriaEnum ObterCategoria(this double pontuacao)
     {
         if (pontuacao >= 1000)
         {
