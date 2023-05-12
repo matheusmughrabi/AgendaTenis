@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\AgendaTenis.BuildingBlocks.Cache\AgendaTenis.BuildingBlocks.Cache.csproj" />
     <ProjectReference Include="..\..\Core\AgendaTenis.Core.Identity\AgendaTenis.Core.Identity.csproj" />
     <ProjectReference Include="..\..\Core\AgendaTenis.Core.Jogadores\AgendaTenis.Core.Jogadores.csproj" />
     <ProjectReference Include="..\..\Core\AgendaTenis.Core.Partidas\AgendaTenis.Core.Partidas.csproj" />

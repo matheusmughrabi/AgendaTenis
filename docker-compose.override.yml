@@ -40,3 +40,9 @@ services:
     - '5672:5672'
     # Porta Painel Rabbit
     - '15672:15672'
+
+  cache:
+    image: redis
+    restart: always
+    ports:
+      - '6379:6379'

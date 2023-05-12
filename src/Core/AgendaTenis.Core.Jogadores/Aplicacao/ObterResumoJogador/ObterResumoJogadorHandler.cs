@@ -2,21 +2,30 @@
 using AgendaTenis.Core.Jogadores.Regras;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using AgendaTenis.BuildingBlocks.Cache;
 
 namespace AgendaTenis.Core.Jogadores.Aplicacao.ObterResumoJogador;
 
 public class ObterResumoJogadorHandler : IRequestHandler<ObterResumoJogadorCommand, ObterResumoJogadorResponse>
 {
     private readonly JogadoresDbContext _jogadoresDbContext;
+    private readonly IDistributedCache _cache;
 
-    public ObterResumoJogadorHandler(JogadoresDbContext jogadoresDbContext)
+    public ObterResumoJogadorHandler(JogadoresDbContext jogadoresDbContext, IDistributedCache cache)
     {
         _jogadoresDbContext = jogadoresDbContext;
+        _cache = cache;
     }
 
     public async Task<ObterResumoJogadorResponse> Handle(ObterResumoJogadorCommand request, CancellationToken cancellationToken)
     {
-        var jogador = await _jogadoresDbContext.Jogador
+        string recordId = $"_jogadores_resumo_{request.UsuarioId}";
+        var jogadorResumo = await _cache.GetRecordAsync<ObterResumoJogadorResponse>(recordId);
+
+        if (jogadorResumo is null)
+        {
+            var jogador = await _jogadoresDbContext.Jogador
             .AsNoTracking()
             .Where(c => c.UsuarioId == request.UsuarioId)
             .Select(p => new ObterResumoQueryModel
@@ -27,16 +36,20 @@ public class ObterResumoJogadorHandler : IRequestHandler<ObterResumoJogadorComma
                 Pontuacao = p.Pontuacao.PontuacaoAtual
             }).FirstOrDefaultAsync();
 
-        var response = new ObterResumoJogadorResponse()
-        {
-            Id = jogador.Id,
-            NomeCompleto = jogador.NomeCompleto,
-            Idade = CalcularIdade(jogador.DataNascimento),
-            Pontuacao = jogador.Pontuacao,
-            Categoria = jogador.Pontuacao.ObterCategoria()
-        };
+            jogadorResumo = new ObterResumoJogadorResponse()
+            {
+                Id = jogador.Id,
+                NomeCompleto = jogador.NomeCompleto,
+                Idade = CalcularIdade(jogador.DataNascimento),
+                Pontuacao = jogador.Pontuacao,
+                Categoria = jogador.Pontuacao.ObterCategoria()
+            };
 
-        return response;
+            await _cache.SetRecordAsync(recordId, jogadorResumo, TimeSpan.FromMinutes(2));
+        }
+        
+
+        return jogadorResumo;
     }
 
     private int CalcularIdade(DateTime dataNascimento)

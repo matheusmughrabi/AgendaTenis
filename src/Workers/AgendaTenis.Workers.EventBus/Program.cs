@@ -17,6 +17,11 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IMessageBus, RabbitMessageBus>();
         services.AddDbContext<JogadoresDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("Jogadores")));
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("Redis");
+            options.InstanceName = "agendaTenis";
+        });
     })
     .Build();
 

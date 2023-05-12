@@ -25,9 +25,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaTenis.BuildingBlocks.Notificacoes", "src\BuildingBlocks\AgendaTenis.BuildingBlocks.Notificacoes\AgendaTenis.BuildingBlocks.Notificacoes.csproj", "{08CEA0F4-DFE2-4067-9944-760385A16FD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaTenis.BuildingBlocks.EventBus", "src\BuildingBlocks\AgendaTenis.BuildingBlocks.EventBus\AgendaTenis.BuildingBlocks.EventBus.csproj", "{36CAAC10-4966-418F-929C-9F56136E186C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaTenis.BuildingBlocks.EventBus", "src\BuildingBlocks\AgendaTenis.BuildingBlocks.EventBus\AgendaTenis.BuildingBlocks.EventBus.csproj", "{36CAAC10-4966-418F-929C-9F56136E186C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaTenis.Workers.EventBus", "src\Workers\AgendaTenis.Workers.EventBus\AgendaTenis.Workers.EventBus.csproj", "{461106E1-8267-4DFC-816F-0CFAFA8F0441}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaTenis.Workers.EventBus", "src\Workers\AgendaTenis.Workers.EventBus\AgendaTenis.Workers.EventBus.csproj", "{461106E1-8267-4DFC-816F-0CFAFA8F0441}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaTenis.BuildingBlocks.Cache", "src\BuildingBlocks\AgendaTenis.BuildingBlocks.Cache\AgendaTenis.BuildingBlocks.Cache.csproj", "{2F35AE98-CDA5-4CAB-AE02-AEDAC22285E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{461106E1-8267-4DFC-816F-0CFAFA8F0441}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{461106E1-8267-4DFC-816F-0CFAFA8F0441}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{461106E1-8267-4DFC-816F-0CFAFA8F0441}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F35AE98-CDA5-4CAB-AE02-AEDAC22285E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F35AE98-CDA5-4CAB-AE02-AEDAC22285E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F35AE98-CDA5-4CAB-AE02-AEDAC22285E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F35AE98-CDA5-4CAB-AE02-AEDAC22285E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{08CEA0F4-DFE2-4067-9944-760385A16FD6} = {EA27D188-8B96-4808-91A5-8F5FC15BD4AD}
 		{36CAAC10-4966-418F-929C-9F56136E186C} = {EA27D188-8B96-4808-91A5-8F5FC15BD4AD}
 		{461106E1-8267-4DFC-816F-0CFAFA8F0441} = {4D2C6B33-C2C3-4610-AC2E-676B31D93321}
+		{2F35AE98-CDA5-4CAB-AE02-AEDAC22285E7} = {EA27D188-8B96-4808-91A5-8F5FC15BD4AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B012AF54-26D4-4B2C-9F43-2E81C76BEC97}

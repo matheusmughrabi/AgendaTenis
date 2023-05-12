@@ -23,6 +23,7 @@ public class Startup
         services.RegistrarPartidas(Configuration);
         services.RegistrarMessageBus(Configuration);
         services.RegistrarAutenticacao(Configuration);
+        services.RegistrarRedis(Configuration);
         services.RegistrarBootstrappers();
         services.AddControllers();
         services.AddEndpointsApiExplorer();
