@@ -25,6 +25,7 @@ services:
       - mongo
       - rabbitmq3
       - cache
+    restart: always
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:latest
@@ -44,7 +45,7 @@ services:
     - "27017:27017"
 
   rabbitmq3:
-    container_name: "agendatenis_rabbitmq"
+    #container_name: "agendatenis_rabbitmq"
     image: rabbitmq:3-management-alpine
     environment:
     - RABBITMQ_DEFAULT_USER=guest
