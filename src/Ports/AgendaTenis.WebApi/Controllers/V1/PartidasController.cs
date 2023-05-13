@@ -27,6 +27,17 @@ public class PartidasController : ControllerBase
     [Authorize]
     public async Task<IActionResult> HistoricoDePartidas(int pagina, int itensPorPagina)
     {
+        var errosRequest = new List<object>();
+
+        if (pagina <= 0)
+            errosRequest.Add(new { pagina = "pagina deve ser um número inteiro maior do que zero" });
+
+        if (itensPorPagina <= 0)
+            errosRequest.Add(new { itensPorPagina = "itensPorPagina deve ser um número inteiro maior do que zero" });
+
+        if (errosRequest.Any())
+            return BadRequest(errosRequest);
+
         var response = await _mediator.Send(new ObterHistoricoDePartidasCommand() { UsuarioId = this.User.Identity.Name, Pagina = pagina, ItensPorPagina = itensPorPagina });
         return Ok(response);
     }

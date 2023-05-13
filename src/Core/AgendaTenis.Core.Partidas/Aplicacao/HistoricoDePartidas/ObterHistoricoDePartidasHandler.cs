@@ -14,6 +14,16 @@ public class ObterHistoricoDePartidasHandler : IRequestHandler<ObterHistoricoDeP
 
     public async Task<ObterHistoricoDePartidasResponse> Handle(ObterHistoricoDePartidasCommand request, CancellationToken cancellationToken)
     {
+        if (request.Pagina <= 0 )
+        {
+            throw new System.ArgumentOutOfRangeException("Página deve ser um número inteiro maior do que zero");
+        }
+
+        if (request.ItensPorPagina <= 0)
+        {
+            throw new System.ArgumentOutOfRangeException("Página deve ser um número inteiro maior do que zero");
+        }
+
         var partidas = await _partidaRepositorio.ObterPartidasPaginado(request.UsuarioId, request.Pagina, request.ItensPorPagina);
 
         return new ObterHistoricoDePartidasResponse()
