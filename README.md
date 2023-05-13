@@ -139,7 +139,7 @@ Se o placar for confirmado, então as seguintes ações irão acontecer:
     2. Perdedor perde 10 pontos
 
 ## Valores de domínio <a name = "valores_dominio">
-Valores de numéricos domínio (enums) são utilizado em diversos locais da aplicação, tais como parâmetros de query (ie., faeture Buscar Jogadores), em requests http (ie., feature Responder Convite) e responses da api (ie., feature obter resumo do tenista).
+Valores numéricos de domínio (enums) são utilizado em diversos locais da aplicação, tais como parâmetros de query (ie., feature Buscar Jogadores), em requests http (ie., feature Responder Convite) e responses da api (ie., feature obter resumo do tenista).\
 Segue abaixo a lista de valores de domínio:
 - Categoria
     - Atp = 1
@@ -183,7 +183,7 @@ O contexto identity é utilizado apenas para realizar o cadastro de usuários na
 - Projeto: AgendaTenis.Core.Identity
 - Modelo de dados:
     - Usuários
-        - Id: string
+        - Id: Guid
         - Email: string 
         - Senha: string
 - Banco de Dados: SQL Server
@@ -219,13 +219,15 @@ O contexto jogadores é utilizado para registrar o perfil do tênista e sua pont
         - Backhand: string
         - EstiloDeJogo: string
         - PontuacaoId: Guid
-- Enums:
-    - CategoriaEnum:
-        - Atp = 1
-        - Avançado = 2
-        - Intermediário = 3
-        - Iniciante = 4  
+        - DataCriacao: DateTime
+    - Pontuação
+        - Id: Guid
+        - JogadorId: Guid
+        - PontuacaoAtual: double
+        - DataCriacao: DateTime
 - Banco de Dados: SQL Server
+- Cache: Redis
+- Mensageria: RabbitMQ
 - Acesso a dados: O acesso a dados foi abstraído com uso do EntityFrameworkCore
 - Observações:
     - Ao contrário do contexto identity, aqui eu **não** utilizei o "Repository Pattern". Dessa forma, estou injetando o DbContext diretamente nos fluxos. O motivo desta decisão foi testar um abordagem diferente do repository pattern.
@@ -260,23 +262,9 @@ O contexto de partidas registra todas as partidas já criadas no sistema.
                 - GamesAdversario
                 - TiebreakDesafiante
                 - TiebreakAdversario
-- Enums:
-    - Jogadores:
-        - Desafiante = 1
-        - Adversario = 2
-    - ModeloPartida:
-        - SetUnico = 1
-        - MelhorDeTresSets = 2
-        - MelhorDeCincoSets = 3
-    - StatusConvite:
-        - Pendente = 1
-        - Aceito = 2
-        - Recusado = 3
-    - StatusConvite:
-        - AguardandoConfirmacao = 1
-        - Aceito = 2
-        - Contestado = 3
 - Banco de Dados: MongoDb
+- Cache: Redis
+- Mensageria: RabbitMQ
 - Acesso a dados: O acesso a dados foi abstraído com uso do MongoDB.Driver
 - Observações:
     - Utilizei o "Repository Pattern" para não depender diretamente do MongoDB.Driver
@@ -307,3 +295,7 @@ Observação: É um pré-requisito que você tenha o docker instalado em sua má
 2. Seria interessante criar uma interface de usuário para os tenistas utilizarem o sistema. Talvez um aplicativo mobile ou uma Web UI.
 3. Ainda não criei testes de unidade. É algo que está no backlog.
 4. No projeto AgendaTenis.Core.Identity, criei uma implementação bastante simples de cadastro de usuários. No futuro será interessante melhorar esta implementação, utilizando bibliotecas robustas como o Microsoft.AspNetCore.Identity que conta com um modelo de dados bastante completo para autenticação e autorização de usuário.
+5. Inicialmente eu ia utilizar o projeto AgendaTenis.Workers.EventBus para ser o worker da aplicação e consumir mensagens do RabbitMQ, mas não deu tempo de configurar ele para rodar dentro do container docker.\
+    Então criei um worker com a mesma funcionalidade dentro do projeto AgendaTenis.WebApi chamado PlacarConfirmadoWorker.\
+    É necessário avaliar o quanto esse worker vai consumir de recursos da API e, se for uma quantidade considerável de recursos, então é melhor utilizar o projeto separado.\
+    Observa-se que não excluí o projeto AgendaTenis.Workers.EventBus, mas ele vai ficar inativo por enquanto.
