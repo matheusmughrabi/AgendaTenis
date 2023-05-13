@@ -351,7 +351,7 @@ Observação: É um pré-requisito que você tenha o docker instalado em sua má
     
 ## Considerações sobre o projeto <a name = "consideracoes"></a>
 1. Hoje só é possível convidar 1 jogador para a partida, ou seja, o sistema ainda não suporta partidas de duplas
-2. Na feature convidar para jogar, o sistema ainda não valida o valore informados em AdversarioId.
+2. Na feature convidar para jogar, o sistema ainda não valida o valor informado em AdversarioId.
     No futuro vou criar esta validação, mas por enquanto **é muito importante informar o UsuarioId do seu adversario e não o JogadorId**. 
     O UsuarioId do seu adversario pode ser obtido em Buscar Adversarios.
 3. Ainda não criei testes de unidade. É algo que está no backlog.
