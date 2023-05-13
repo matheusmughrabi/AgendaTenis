@@ -39,69 +39,74 @@ public class IdentityBootstrapper : IBootstrapper
 
     private async Task CriarContas()
     {
-        await CriarConta(new CriarUsuariosBootstrapModelo()
-        {
-            Email = "maria@gmail.com",
-            Senha = "maria123456789",
-            Nome = "Maria",
-            Sobrenome = "Silva",
-            DataNascimento = new DateTime(1980, 10, 15),
-            Telefone = "5555-1111",
-            Pais = "Brasil",
-            Estado = "São Paulo",
-            Cidade = "Campinas",
-            MaoDominante = "Direita",
-            Backhand = "Duas mãos",
-            EstiloDeJogo = "Agressivo"
-        }).ConfigureAwait(false);
+        var jaExistemRegistros = await _identityDbContext.Usuario.AnyAsync();
 
-        await CriarConta(new CriarUsuariosBootstrapModelo()
+        if (jaExistemRegistros == false)
         {
-            Email = "Claudio@gmail.com",
-            Senha = "claudio123456789",
-            Nome = "Claudio",
-            Sobrenome = "Gomes",
-            DataNascimento = new DateTime(1980, 10, 15),
-            Telefone = "1234-5678",
-            Pais = "Brasil",
-            Estado = "São Paulo",
-            Cidade = "Campinas",
-            MaoDominante = "Direita",
-            Backhand = "Duas mãos",
-            EstiloDeJogo = "Defensivo"
-        }).ConfigureAwait(false);
+            await CriarConta(new CriarUsuariosBootstrapModelo()
+            {
+                Email = "maria@gmail.com",
+                Senha = "maria123456789",
+                Nome = "Maria",
+                Sobrenome = "Silva",
+                DataNascimento = new DateTime(1980, 10, 15),
+                Telefone = "5555-1111",
+                Pais = "Brasil",
+                Estado = "São Paulo",
+                Cidade = "Campinas",
+                MaoDominante = "Direita",
+                Backhand = "Duas mãos",
+                EstiloDeJogo = "Agressivo"
+            }).ConfigureAwait(false);
 
-        await CriarConta(new CriarUsuariosBootstrapModelo()
-        {
-            Email = "joao@gmail.com",
-            Senha = "joao123456789",
-            Nome = "Joao",
-            Sobrenome = "Pereira",
-            DataNascimento = new DateTime(1980, 10, 15),
-            Telefone = "3333-2222",
-            Pais = "Brasil",
-            Estado = "São Paulo",
-            Cidade = "Campinas",
-            MaoDominante = "Direita",
-            Backhand = "Uma mão",
-            EstiloDeJogo = "Balanceado"
-        }).ConfigureAwait(false);
+            await CriarConta(new CriarUsuariosBootstrapModelo()
+            {
+                Email = "Claudio@gmail.com",
+                Senha = "claudio123456789",
+                Nome = "Claudio",
+                Sobrenome = "Gomes",
+                DataNascimento = new DateTime(1980, 10, 15),
+                Telefone = "1234-5678",
+                Pais = "Brasil",
+                Estado = "São Paulo",
+                Cidade = "Campinas",
+                MaoDominante = "Direita",
+                Backhand = "Duas mãos",
+                EstiloDeJogo = "Defensivo"
+            }).ConfigureAwait(false);
 
-        await CriarConta(new CriarUsuariosBootstrapModelo()
-        {
-            Email = "Clara@gmail.com",
-            Senha = "clara123456789",
-            Nome = "Clara",
-            Sobrenome = "Souza",
-            DataNascimento = new DateTime(1980, 10, 15),
-            Telefone = "6666-7777",
-            Pais = "Brasil",
-            Estado = "São Paulo",
-            Cidade = "Campinas",
-            MaoDominante = "Esquerda",
-            Backhand = "Duas mãos",
-            EstiloDeJogo = "Agressivo"
-        }).ConfigureAwait(false);
+            await CriarConta(new CriarUsuariosBootstrapModelo()
+            {
+                Email = "joao@gmail.com",
+                Senha = "joao123456789",
+                Nome = "Joao",
+                Sobrenome = "Pereira",
+                DataNascimento = new DateTime(1980, 10, 15),
+                Telefone = "3333-2222",
+                Pais = "Brasil",
+                Estado = "São Paulo",
+                Cidade = "Campinas",
+                MaoDominante = "Direita",
+                Backhand = "Uma mão",
+                EstiloDeJogo = "Balanceado"
+            }).ConfigureAwait(false);
+
+            await CriarConta(new CriarUsuariosBootstrapModelo()
+            {
+                Email = "Clara@gmail.com",
+                Senha = "clara123456789",
+                Nome = "Clara",
+                Sobrenome = "Souza",
+                DataNascimento = new DateTime(1980, 10, 15),
+                Telefone = "6666-7777",
+                Pais = "Brasil",
+                Estado = "São Paulo",
+                Cidade = "Campinas",
+                MaoDominante = "Esquerda",
+                Backhand = "Duas mãos",
+                EstiloDeJogo = "Agressivo"
+            }).ConfigureAwait(false);
+        }
     }
 
     private async Task CriarConta(CriarUsuariosBootstrapModelo usuario)

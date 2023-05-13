@@ -33,10 +33,9 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, BootstrapperService processadorDeBootstrappers)
     {
-        processadorDeBootstrappers.Executar();
-
         if (env.IsDevelopment())
         {
+            processadorDeBootstrappers.Executar();
             app.UseSwagger();
             app.UseSwaggerUI();
         }
