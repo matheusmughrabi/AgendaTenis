@@ -167,12 +167,15 @@ Segue abaixo a lista de valores de domínio:
     - Contestado = 3
 
 ## Descrição técnica<a name = "descricao_tecnica"></a>
-### Contextos delimitados
 A aplicação possui 3 contextos delimitados que são totalmente desacoplados entre si.
 Os 3 contextos são:
 * Identity
 * Jogadores
 * Partidas
+    
+A imagem abaixo ilustra a topologia da aplicação
+![Topologia da aplicação](.imagens/topologia_aplicacao.PNG)
+
 
 #### Contexto Identity
 O contexto identity é utilizado apenas para realizar o cadastro de usuários na aplicação e geração de token de acesso jwt.
