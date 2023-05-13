@@ -56,7 +56,7 @@ Com isso, o usuário terá um perfil completo que poderá ser encontrado por out
 
 ### Buscar adversários
 Essa feature é muito útil para o tênista encontrar adversários cadastrados na plataforma.\
-É possível encontrarr outros tenistas filtrando por região e categoria.
+É possível encontrar outros tenistas filtrando por região e categoria.
 
 **Rota**: Api/Jogadores/Adversarios/Buscar?pais=Brasil&estado=S%C3%A3o%20Paulo&cidade=Campinas&categoria=2\
 **Método HTTP**: GET\
@@ -279,8 +279,8 @@ O contexto de partidas registra todas as partidas já criadas no sistema.
     - MongoDB.Driver
     
 ### Migrations e seed data
-No ambiente de desenvolvimento (ASPNETCORE_ENVIRONMENT=Development), você não precisa se preocupar em executar as migrations do entity framework, pois criar um Bootstrapper que é executado quando a aplicação é iniciada.\
-Esse bootstrapper chamado de IdentityBootstrapper irá executar as migrations automaticamente e também criará 4 usuários que você pode utilizar se quiser.\
+No ambiente de desenvolvimento (ASPNETCORE_ENVIRONMENT=Development), você não precisa se preocupar em executar as migrations do entity framework, pois criei um Bootstrapper que é executado quando a aplicação é iniciada.\
+O bootstrapper, chamado de IdentityBootstrapper, irá executar as migrations automaticamente e também criará 4 usuários que você pode utilizar se quiser.\
 Segue a lista de usuários criados automaticamente: <a name = "contas_pre_cadastradas"></a>
 - Maria
     - Email: maria@gmail.com
