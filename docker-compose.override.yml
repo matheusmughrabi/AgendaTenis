@@ -5,6 +5,15 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ConnectionStrings__Identity=Server=sqlserver,1433;Database=identity_db;User Id=sa;Password=MinhaSenha!;
+      - ConnectionStrings__Jogadores=Server=sqlserver,1433;Database=jogadores_db;User Id=sa;Password=MinhaSenha!;
+      - ConnectionStrings__Partidas=mongodb://root:MongoDB2023!@mongo:27017
+      - ConnectionStrings__Redis=cache:6379
+      - RabbitMQ__Host=rabbitmq3
+      - RabbitMQ__Port=5672
+      - RabbitMQ__Username=guest
+      - RabbitMQ__Password=guest
+      - RabbitMQ__CliendProvidedName=AgendaTenis
     ports:
       - "8000:80"
       - "4000:443"
