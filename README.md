@@ -1,5 +1,8 @@
 # AgendaTenis
 
+![Topologia da aplicação](./imagens/Raquete.PNG)
+Fonte: [standret](https://br.freepik.com/fotos-gratis/uma-raquete-de-tenis-e-uma-bola-de-tenis-nova-em-uma-quadra-recem-pintada_10138885.htm#query=raquete%20tenis&position=2&from_view=keyword&track=ais)
+
 ## Índice
 
 - [Sobre](#sobre)
