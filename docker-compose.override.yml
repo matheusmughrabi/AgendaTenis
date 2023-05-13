@@ -36,10 +36,8 @@ services:
     - RABBITMQ_DEFAULT_USER=guest
     - RABBITMQ_DEFAULT_PASS=guest
     ports:
-    # Porta AMPQ
-    - '5672:5672'
-    # Porta Painel Rabbit
-    - '15672:15672'
+    - '5672:5672' # Porta AMPQ
+    - '15672:15672' # Porta Painel Rabbit
 
   cache:
     image: redis
