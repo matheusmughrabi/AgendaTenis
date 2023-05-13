@@ -31,7 +31,7 @@ public class RegistrarPlacarHandler : IRequestHandler<RegistrarPlacarCommand, Re
             }
 
             var sets = request.Sets.Select(c => new Set(c.NumeroSet, c.GamesDesafiante, c.GamesAdversario, c.TiebreakDesafiante, c.TiebreakAdversario)).ToList();
-            partida.RegistrarPlacar(request.VencedorId, sets, request.JogadorWO);
+            partida.RegistrarPlacar(request.VencedorId, sets);
 
             var atualizou = await _partidaRepositorio.Update(partida);
 

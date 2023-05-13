@@ -27,14 +27,12 @@ public class Partida
     public StatusConviteEnum StatusConvite { get; private set; }
     public StatusPlacarEnum? StatusPlacar { get; private set; }
     public string? VencedorId { get; private set; }
-    public string? JogadorWO { get; private set; }
     public List<Set> Sets { get; private set; }
 
-    public void RegistrarPlacar(string vencedorId, List<Set> sets, string? jogadorWO)
+    public void RegistrarPlacar(string vencedorId, List<Set> sets)
     {
         VencedorId = vencedorId;
         Sets = sets;
-        JogadorWO = jogadorWO;
         StatusPlacar = StatusPlacarEnum.AguardandoConfirmacao;
     }
 

@@ -40,6 +40,14 @@ public class PartidasController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("Convites/Pendentes")]
+    [Authorize]
+    public async Task<IActionResult> ConvitesPendentes()
+    {
+        var response = await _mediator.Send(new ObterConvitesPendentesCommand() { UsuarioId = this.User.Identity.Name });
+        return Ok(response);
+    }
+
     [HttpPut("Convites/Responder")]
     [Authorize]
     public async Task<IActionResult> ResponderConvite([FromServices] AdversarioDaPartidaPoliceHandler policeHandler, [FromBody] ResponderConviteCommand command)
@@ -49,14 +57,6 @@ public class PartidasController : ControllerBase
             return Unauthorized();
 
         var response = await _mediator.Send(command);
-        return Ok(response);
-    }
-
-    [HttpGet("Convites/Pendentes")]
-    [Authorize]
-    public async Task<IActionResult> ConvitesPendentes()
-    {
-        var response = await _mediator.Send(new ObterConvitesPendentesCommand() { UsuarioId = this.User.Identity.Name });
         return Ok(response);
     }
 

@@ -1,7 +1,9 @@
 ﻿using AgendaTenis.BuildingBlocks.Notificacoes;
 using AgendaTenis.Core.Partidas.Dominio;
+using AgendaTenis.Core.Partidas.Enums;
 using AgendaTenis.Core.Partidas.Repositorios;
 using MediatR;
+using MongoDB.Driver;
 
 namespace AgendaTenis.Core.Partidas.Aplicacao.ResponderConvite;
 
@@ -30,7 +32,17 @@ public class ResponderConviteHandler : IRequestHandler<ResponderConviteCommand, 
                 };
             }
 
-            partida.ResponderConvite(request.StatusConvite);
+            StatusConviteEnum statusConvite;
+            if (request.Aceitar)
+            {
+                statusConvite = StatusConviteEnum.Aceito;
+            }
+            else
+            {
+                statusConvite = StatusConviteEnum.Recusado;
+            }
+
+            partida.ResponderConvite(statusConvite);
 
             var atualizou = await _partidaRepositorio.Update(partida);
 

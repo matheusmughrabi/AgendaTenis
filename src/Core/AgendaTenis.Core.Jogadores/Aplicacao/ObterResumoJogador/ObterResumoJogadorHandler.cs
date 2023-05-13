@@ -31,6 +31,7 @@ public class ObterResumoJogadorHandler : IRequestHandler<ObterResumoJogadorComma
             .Select(p => new ObterResumoQueryModel
             {
                 Id = p.Id,
+                UsuarioId = p.UsuarioId,
                 NomeCompleto = $"{p.Nome} {p.Sobrenome}",
                 DataNascimento = p.DataNascimento,
                 Pontuacao = p.Pontuacao.PontuacaoAtual
@@ -39,6 +40,7 @@ public class ObterResumoJogadorHandler : IRequestHandler<ObterResumoJogadorComma
             jogadorResumo = new ObterResumoJogadorResponse()
             {
                 Id = jogador.Id,
+                UsuarioId = jogador.UsuarioId,
                 NomeCompleto = jogador.NomeCompleto,
                 Idade = CalcularIdade(jogador.DataNascimento),
                 Pontuacao = jogador.Pontuacao,
@@ -68,6 +70,7 @@ public class ObterResumoJogadorHandler : IRequestHandler<ObterResumoJogadorComma
     public class ObterResumoQueryModel
     {
         public Guid Id { get; set; }
+        public Guid UsuarioId { get; set; }
         public string NomeCompleto { get; set; }
         public DateTime DataNascimento { get; set; }
         public double Pontuacao { get; set; }

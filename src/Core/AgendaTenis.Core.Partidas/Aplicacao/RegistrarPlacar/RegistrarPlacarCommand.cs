@@ -7,7 +7,6 @@ public class RegistrarPlacarCommand : IRequest<RegistrarPlacarResponse>
 {
     public string Id { get; set; }
     public string VencedorId { get; set; }
-    public string? JogadorWO { get; set; }
     public List<Set> Sets { get; set; }
 
     public class Set
