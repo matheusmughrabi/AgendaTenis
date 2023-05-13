@@ -56,8 +56,9 @@ Com isso, o usuário terá um perfil completo que poderá ser encontrado por out
 Essa feature é muito útil para o tênista encontrar adversários cadastrados na plataforma.\
 É possível encontrarr outros tenistas filtrando por região e categoria.
 
-**Rota**: Api/Jogadores/Adversarios/Buscar\
-**Método HTTP**: GET
+**Rota**: Api/Jogadores/Adversarios/Buscar?pais=Brasil&estado=S%C3%A3o%20Paulo&cidade=Campinas&categoria=2\
+**Método HTTP**: GET\
+**Observações**: Se necessário utilize a seção [Valores de domínio](#valores_dominio) para encontrar os códigos para **Categoria**, **ModeloPartida**, **StatusConvite** e **StatusPlacar**
 
 ### Obter resumo
 O usuário logado pode acessar este endpoint para obter seu resumo de tênista.\
@@ -69,7 +70,8 @@ Com isso ele irá obter as seguintes informações:
 - Categoria
 
 **Rota**: Api/Jogadores/Resumo\
-**Método HTTP**: GET
+**Método HTTP**: GET\
+**Observações**: Se necessário utilize a seção [Valores de domínio](#valores_dominio) para encontrar os códigos para **Categoria**, **ModeloPartida**, **StatusConvite** e **StatusPlacar**
 
 ### Histórico de partidas
 Esta feature busca as partidas do usuário logado (inclusive partidas canceladas e as que ainda não aconteceram).\
@@ -77,7 +79,8 @@ Para não onerar o banco de dados e a performance da aplicação, a consulta do 
 Dessa forma o usuário precisa informar o número da página e os items por página.
 
 **Rota**: Api/Partidas/Historico\
-**Método HTTP**: GET
+**Método HTTP**: GET\
+**Observações**: Se necessário utilize a seção [Valores de domínio](#valores_dominio) para encontrar os códigos para **Categoria**, **ModeloPartida**, **StatusConvite** e **StatusPlacar**
 
 ### Convidar para jogar
 Quando o usuário quiser convidar alguém para jogar, ele poderá utilizar esta feature.\
@@ -102,8 +105,9 @@ ele poderá ver o convite do jogador A.
 Após verificar seus convites pendentes, o jogador poderá aceitar ou recusar os convites.\
 Para isso, ele pode utilizar a feature Responder Convite na qual ele informa o Id da Partida (pode ser obtido utilizando a feature convites pendentes) e o status de aceitação (2 para aceitar e 3 para recusar).
 
-Rota: Api/Partidas/Convites/Responder\
-Método http: POST
+**Rota*: Api/Partidas/Convites/Responder\
+**Método HTTP**: POST\
+**Observações**: Se necessário utilize a seção [Valores de domínio](#valores_dominio) para encontrar os códigos para **Categoria**, **ModeloPartida**, **StatusConvite** e **StatusPlacar**
 
 ### Registrar placar
 Depois do jogo, o desafiante da partida poderá registrar o resultado na partida.
@@ -131,6 +135,34 @@ Se o placar for confirmado, então as seguintes ações irão acontecer:
 3. Evento "Placar Confirmado" é consumido
     1. Vencedor ganha 10 pontos
     2. Perdedor perde 10 pontos
+
+## Valores de domínio <a name = "valores_dominio">
+Valores de numéricos domínio (enums) são utilizado em diversos locais da aplicação, tais como parâmetros de query (ie., faeture Buscar Jogadores), em requests http (ie., feature Responder Convite) e responses da api (ie., feature obter resumo do tenista).
+Segue abaixo a lista de valores de domínio:
+- Categoria
+    - Atp = 1
+    - Avançado = 2
+    - Intermediário = 3
+    - Iniciante = 4 
+
+- Jogadores:
+    - Desafiante = 1
+    - Adversario = 2
+    
+- ModeloPartida:
+    - SetUnico = 1
+    - MelhorDeTresSets = 2
+    - MelhorDeCincoSets = 3
+    
+- StatusConvite:
+    - Pendente = 1
+    - Aceito = 2
+    - Recusado = 3
+    
+- StatusConvite:
+    - AguardandoConfirmacao = 1
+    - Aceito = 2
+    - Contestado = 3
 
 ## Como o sistema funciona<a name = "implementacao_tecnica"></a>
 ### Contextos delimitados
@@ -182,6 +214,12 @@ O contexto jogadores é utilizado para registrar o perfil do tênista e sua pont
         - Backhand: string
         - EstiloDeJogo: string
         - PontuacaoId: Guid
+- Enums:
+    - CategoriaEnum:
+        - Atp = 1
+        - Avançado = 2
+        - Intermediário = 3
+        - Iniciante = 4  
 - Banco de Dados: SQL Server
 - Acesso a dados: O acesso a dados foi abstraído com uso do EntityFrameworkCore
 - Observações:
@@ -196,10 +234,59 @@ O contexto jogadores é utilizado para registrar o perfil do tênista e sua pont
     - Microsoft.EntityFrameworkCore.SqlServer
 
 #### Contexto Partidas
+O contexto de partidas registra todas as partidas já criadas no sistema.
 
+- Projeto: AgendaTenis.Core.Partidas
+- Modelo de dados:
+    - Partida
+        - Id: string
+        - DesafianteId: string
+        - AdversarioId: string
+        - DataDaPartida: DateTime
+        - DescricaoLocal: string
+        - ModeloDaPartida: ModeloPartidaEnum
+        - StatusConvite: StatusConviteEnum
+        - StatusPlacar: StatusPlacarEnum
+        - VencedorId: string
+        - JogadorWO: string
+            - Sets []: 
+                - NumeroSet
+                - GamesDesafiante
+                - GamesAdversario
+                - TiebreakDesafiante
+                - TiebreakAdversario
+- Enums:
+    - Jogadores:
+        - Desafiante = 1
+        - Adversario = 2
+    - ModeloPartida:
+        - SetUnico = 1
+        - MelhorDeTresSets = 2
+        - MelhorDeCincoSets = 3
+    - StatusConvite:
+        - Pendente = 1
+        - Aceito = 2
+        - Recusado = 3
+    - StatusConvite:
+        - AguardandoConfirmacao = 1
+        - Aceito = 2
+        - Contestado = 3
+- Banco de Dados: MongoDb
+- Acesso a dados: O acesso a dados foi abstraído com uso do MongoDB.Driver
+- Observações:
+    - Utilizei o "Repository Pattern" para não depender diretamente do MongoDB.Driver
+    - Utilizei o Mediatr para auxiliar na implementação do padrão Command
+- Dependências:
+    - AgendaTenis.BuildingBlocks.Notificacoes
+    - AgendaTenis.BuildingBlocks.Cache
+    - AgendaTenis.BuildingBlocks.EventBus
+    - Mediatr
+    - MongoDB.Driver
 
 ### Docker
-
+- Criei um arquivo Dockerfile para o projeto AgendaTenis.WebApi
+- Criei um arquivo docker-compose com todos os serviços necessário para a aplicação rodar
+- Dessa forma a aplicação poderá ser executada apenas com as instruções presentes na seção [Como Usar](#como_usar)
 
 ## Como usar <a name = "como_usar"></a>
 1. git clone {repourl}
@@ -211,3 +298,7 @@ O contexto jogadores é utilizado para registrar o perfil do tênista e sua pont
 Observação: É um pré-requisito que você tenha o docker instalado em sua máquina
 
 ## Considerações sobre o projeto <a name = "consideracoes"></a>
+1. Hoje só é possível convidar 1 jogador para a partida, ou seja, o sistema ainda não suporta partidas de duplas
+2. Seria interessante criar uma interface de usuário para os tenistas utilizarem o sistema. Talvez um aplicativo mobile ou uma Web UI.
+3. Ainda não criei testes de unidade. É algo que está no backlog.
+4. No projeto AgendaTenis.Core.Identity, criei uma implementação bastante simples de cadastro de usuários. No futuro será interessante melhorar esta implementação, utilizando bibliotecas robustas como o Microsoft.AspNetCore.Identity que conta com um modelo de dados bastante completo para autenticação e autorização de usuário.
