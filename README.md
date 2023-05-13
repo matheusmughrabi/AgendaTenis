@@ -4,6 +4,8 @@
 
 - [Sobre](#sobre)
 - [Features](#features)
+- [Valores de domínio](#valores_dominio)
+- [Descrição técnica do sistema](#descricao_tecnica)
 - [Como usar](#como_usar)
 - [Considerações sobre o projeto](#consideracoes)
 
@@ -164,7 +166,7 @@ Segue abaixo a lista de valores de domínio:
     - Aceito = 2
     - Contestado = 3
 
-## Como o sistema funciona<a name = "implementacao_tecnica"></a>
+## Descrição técnica<a name = "descricao_tecnica"></a>
 ### Contextos delimitados
 A aplicação possui 3 contextos delimitados que são totalmente desacoplados entre si.
 Os 3 contextos são:
