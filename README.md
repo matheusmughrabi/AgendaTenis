@@ -326,7 +326,7 @@ Observação: É um pré-requisito que você tenha o docker instalado em sua má
 
 ## Exemplo de uso da API <a name = "exemplo_uso"></a>
 1. Execute a aplicação conforme instruído em [Como executar](#como_executar)
-2. Abra o swagger https://localhost:4000/swagger/index.html
+2. Abra o swagger https://localhost:4000/swagger/index.html (após executar o passo anterior, pode levar alguns instantes até que os containeres estejam todos executando, então é necessário aguardar um pouco até que o swagger esteja de pé).
 3. Crie uma nova conta em Criar Conta ou use uma das [conta pré-cadastradas](#contas_pre_cadastradas)
 4. Faça uma chamada para o método Gerar Token informando um e-mail e senha válidos
 5. Copie o token gerado e clice no botão "Authorize" do swagger
