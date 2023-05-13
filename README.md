@@ -173,8 +173,8 @@ Os 3 contextos são:
 * Jogadores
 * Partidas
     
-A imagem abaixo ilustra a topologia da aplicação
-![Topologia da aplicação](.imagens/topologia_aplicacao.PNG)
+A imagem abaixo ilustra a topologia da aplicação:
+![Topologia da aplicação](./imagens/topologia_aplicacao.PNG)
 
 
 #### Contexto Identity
