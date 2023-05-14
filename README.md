@@ -15,9 +15,9 @@ Fonte: [standret](https://br.freepik.com/fotos-gratis/uma-raquete-de-tenis-e-uma
 
 ## Sobre<a name = "sobre"></a>
 
-AgendaTenis é uma API na qual tenistas podem criar um perfil e agendar jogos com outros tênistas.\
+AgendaTenis é uma API na qual tenistas podem criar um perfil e agendar jogos com outros tenistas.\
 A API conta com um sistema de pontuação que divide os tenistas em categorias (atp, avançado, intermediário e iniciante).\
-O tênista pode buscar outros tênistas especificando a região (país, estado e cidade) e a categoria do adversário desejado e convidá-lo para um jogo.\
+O tênista pode buscar outros tenistas especificando a região (país, estado e cidade) e a categoria do adversário e convidá-lo para um jogo.\
 Quando um convite é feito, o adversário pode aceitar ou recusar o convite.\
 Após o jogo, o desafiante registra o placar da partida e em seguida o adversário pode confirmar ou contestar o placar registrado.\
 Se o adversário confirmar o placar, então a partida é validada e são adicionados 10 pontos para o vencedor e subtraídos 10 pontos do perdedor.
@@ -28,18 +28,22 @@ Se o adversário confirmar o placar, então a partida é validada e são adicion
 Cadastro simples na plataforma com e-mail e senha.
 
 **Rota**: Api/Identity/CriarConta\
-**Método HTTP**: POST
+**Método HTTP**: POST\
+**Autenticação**: Não precisa estar autenticado\
+**Autorização**: N/A
 
 ### Gerar token (login)
 Gera um token jwt para autenticação do usuário.\
 Basta informar o e-mail e senha para obter o token.
 
 **Rota**: Api/Identity/GerarToken\
-**Método HTTP**: POST
+**Método HTTP**: POST\
+**Autenticação**: Não precisa estar autenticado\
+**Autorização**: N/A
 
 ### Completar perfil
 Quando o usuário cria uma conta no sistema, ele fornece apenas as credenciais básicas (e-mail e senha).\
-Para ter um perfil de tenista completo no sistema, o usuário deverá utilizar esta feature e informar alguns dados adicionais como:
+Para ter um perfil de tenista completo no sistema, o usuário deverá utilizar esta feature e informar os dados adicionais a seguir:
 - Nome
 - Sobrenome 
 - Data de nascimento
@@ -55,7 +59,9 @@ Para ter um perfil de tenista completo no sistema, o usuário deverá utilizar e
 Com isso, o usuário terá um perfil completo que poderá ser encontrado por outros jogadores interessados em jogar com ele.
 
 **Rota**: Api/Jogadores/Perfil/Completar\
-**Método HTTP**: POST
+**Método HTTP**: POST\
+**Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
+**Autorização**: Não tem políticas de autorização, somente autenticação é suficiente
 
 ### Buscar adversários
 Essa feature é muito útil para o tênista encontrar adversários cadastrados na plataforma.\
@@ -63,6 +69,8 @@ Essa feature é muito útil para o tênista encontrar adversários cadastrados n
 
 **Rota**: Api/Jogadores/Adversarios/Buscar?pais=Brasil&estado=S%C3%A3o%20Paulo&cidade=Campinas&categoria=2\
 **Método HTTP**: GET\
+**Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
+**Autorização**: Não tem políticas de autorização, somente autenticação é suficiente\
 **Observações**: Se necessário utilize a seção [Valores de domínio](#valores_dominio) para encontrar os códigos para **Categoria**, **ModeloPartida**, **StatusConvite** e **StatusPlacar**
 
 ### Obter resumo
@@ -76,6 +84,8 @@ Com isso ele irá obter as seguintes informações:
 
 **Rota**: Api/Jogadores/Resumo\
 **Método HTTP**: GET\
+**Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
+**Autorização**: Não tem políticas de autorização, somente autenticação é suficiente\
 **Observações**: Se necessário utilize a seção [Valores de domínio](#valores_dominio) para encontrar os códigos para **Categoria**, **ModeloPartida**, **StatusConvite** e **StatusPlacar**
 
 ### Histórico de partidas
@@ -85,6 +95,8 @@ Dessa forma o usuário precisa informar o número da página e os items por pág
 
 **Rota**: Api/Partidas/Historico\
 **Método HTTP**: GET\
+**Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
+**Autorização**: Não tem políticas de autorização, somente autenticação é suficiente\
 **Observações**: Se necessário utilize a seção [Valores de domínio](#valores_dominio) para encontrar os códigos para **Categoria**, **ModeloPartida**, **StatusConvite** e **StatusPlacar**
 
 ### Convidar para jogar
@@ -96,7 +108,9 @@ Para isso, basta informar as seguintes informações:
 - ModeloDaPartida
 
 **Rota**: Api/Partidas/Convites/Convidar\
-**Método HTTP**: POST
+**Método HTTP**: POST\
+**Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
+**Autorização**: Não tem políticas de autorização, somente autenticação é suficiente\
 **Observações**: Conforme expliquei na seção [Considerações sobre o projeto](#consideracoes), o sistema ainda não valida se o valor AdversarioId pertence a um Usuário cadastrado no sistema. Por isso, é muito importante informar um UsuarioId que existe.
 UsuarioId do seu adversario pode ser obtido em BuscarAdversarios (é o campo **usuarioId** do response).
 
@@ -106,21 +120,27 @@ Por exemplo, se o jogador A convidar o jogador B para uma partida, então quando
 ele poderá ver o convite do jogador A.
 
 **Rota**: Api/Partidas/Convites/Pendentes\
-**Método HTTP**: GET
+**Método HTTP**: GET\
+**Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
+**Autorização**: Não tem políticas de autorização, somente autenticação é suficiente
 
 ### Responder convite
 Após verificar seus convites pendentes, o jogador poderá aceitar ou recusar os convites.\
 Para isso, ele pode utilizar a feature Responder Convite na qual ele informa o Id da Partida (pode ser obtido utilizando a feature convites pendentes) e o status de aceitação (2 para aceitar e 3 para recusar).
 
-**Rota*: Api/Partidas/Convites/Responder\
+**Rota**: Api/Partidas/Convites/Responder\
 **Método HTTP**: POST\
+**Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
+**Autorização**: Precisa obrigatoriamente ser o **adversário** da partida, do contrário retorna status 403 (Forbidden)\
 **Observações**: Se necessário utilize a seção [Valores de domínio](#valores_dominio) para encontrar os códigos para **Categoria**, **ModeloPartida**, **StatusConvite** e **StatusPlacar**
 
 ### Registrar placar
 Depois do jogo, o desafiante da partida poderá registrar o resultado na partida.
 
 **Rota**: Api/Partidas/Placar/Registrar\
-**Método HTTP**: POST
+**Método HTTP**: POST\
+**Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
+**Autorização**: Precisa obrigatoriamente ser o **desafiante** da partida, do contrário retorna status 403 (Forbidden)
 
 ### Confirmar placar pendências
 Com esta feature o usuário pode ver suas pendências de confirmação de placar.\
@@ -130,7 +150,9 @@ Observa-se que pendências de confirmação de placar existem quando:
 3. Você ainda não confirmou o placar registrado pelo desafiante (dessa forma existe uma pendência de confirmação de placar)
 
 **Rota**: Api/Partidas/Placar/Pendentes\
-**Método HTTP**: GET
+**Método HTTP**: GET\
+**Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
+**Autorização**: Não tem políticas de autorização, somente autenticação é suficiente
 
 ### Responder Placar
 Essa feature conclui o ciclo de vida de uma partida.\
@@ -142,6 +164,11 @@ Se o placar for confirmado, então as seguintes ações irão acontecer:
 3. Evento "Placar Confirmado" é consumido
     1. Vencedor ganha 10 pontos
     2. Perdedor perde 10 pontos
+
+**Rota**: Api/Partidas/Placar/Responder\
+**Método HTTP**: GET\
+**Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
+**Autorização**: Precisa obrigatoriamente ser o **adversário** da partida, do contrário retorna status 403 (Forbidden)
 
 ## Valores de domínio <a name = "valores_dominio">
 Valores numéricos de domínio (enums) são utilizado em diversos locais da aplicação, tais como parâmetros de query (ie., feature Buscar Jogadores), em requests http (ie., feature Responder Convite) e responses da api (ie., feature obter resumo do tenista).\
@@ -361,7 +388,6 @@ Observação: É um pré-requisito que você tenha o docker instalado em sua má
 4. No projeto AgendaTenis.Core.Identity, criei uma implementação bastante simples de cadastro de usuários. No futuro será interessante melhorar esta implementação, utilizando bibliotecas robustas como o Microsoft.AspNetCore.Identity que conta com um modelo de dados bastante completo para autenticação e autorização de usuário.
 5. Inicialmente eu ia utilizar o projeto AgendaTenis.Workers.EventBus para ser o worker da aplicação e consumir mensagens do RabbitMQ, mas não deu tempo de configurar ele para rodar dentro do container docker.\
     Então criei um worker com a mesma funcionalidade dentro do projeto AgendaTenis.WebApi chamado PlacarConfirmadoWorker.\
-    É necessário avaliar o quanto esse worker vai consumir de recursos da API e, se for uma quantidade considerável de recursos, então é melhor utilizar o projeto separado.\
     Observa-se que não excluí o projeto AgendaTenis.Workers.EventBus, mas ele vai ficar inativo por enquanto.
 6. Seria interessante criar uma interface de usuário para os tenistas utilizarem o sistema. Talvez um aplicativo mobile ou uma Web UI.
 
