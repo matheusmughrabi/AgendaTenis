@@ -86,7 +86,11 @@ Com isso ele irá obter as seguintes informações:
 **Método HTTP**: GET\
 **Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
 **Autorização**: Não tem políticas de autorização, somente autenticação é suficiente\
-**Observações**: Se necessário utilize a seção [Valores de domínio](#valores_dominio) para encontrar os códigos para **Categoria**, **ModeloPartida**, **StatusConvite** e **StatusPlacar**
+**Observações**:\
+Se necessário utilize a seção [Valores de domínio](#valores_dominio) para encontrar os códigos para **Categoria**, **ModeloPartida**, **StatusConvite** e **StatusPlacar**\
+Contém cache com 2 minutos de expiração.
+
+
 
 ### Histórico de partidas
 Esta feature busca as partidas do usuário logado (inclusive partidas canceladas e as que ainda não aconteceram).\
@@ -123,6 +127,7 @@ ele poderá ver o convite do jogador A.
 **Método HTTP**: GET\
 **Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
 **Autorização**: Não tem políticas de autorização, somente autenticação é suficiente
+**Observações**: Contém cache com 2 minutos de expiração.
 
 ### Responder convite
 Após verificar seus convites pendentes, o jogador poderá aceitar ou recusar os convites.\
@@ -153,6 +158,7 @@ Observa-se que pendências de confirmação de placar existem quando:
 **Método HTTP**: GET\
 **Autenticação**: Necessita token jwt gerado em Api/Identity/GerarToken, do contrário retorna status 401 (Unauthorized)\
 **Autorização**: Não tem políticas de autorização, somente autenticação é suficiente
+**Observações**: Contém cache com 2 minutos de expiração.
 
 ### Responder Placar
 Essa feature conclui o ciclo de vida de uma partida.\
@@ -376,8 +382,8 @@ Observação: É um pré-requisito que você tenha o docker instalado em sua má
 19. Agora a partida está com placar registrado pelo desafiante.
 20. [2º aba do navegador] Vamos confirmar o placar registrado pelo desafiante. Para isso, faça uma chamada para o método Partidas/Placar/Responder e informe o id da partida e true em "confirmarPlacar".
 21. Como você respondeu true em confirmar placar no passo anterior, então a partida foi validada e a pontuação dos tenistas será atualizada.
-22. [1º aba do navegador] Faça uma chamada para o método ObterResumo e veja a pontuação
-23. [2º aba do navegador] Faça uma chamada para o método ObterResumo e veja a pontuação
+22. [1º aba do navegador] Faça uma chamada para o método ObterResumo e veja a pontuação (Se você já tiver executado este método antes, então o valor vai estar cacheado com um tempo de expiração de 2 minutos, portanto, você pode ter que aguardar um pouco para receber um valor atualizado)
+23. [2º aba do navegador] Faça uma chamada para o método ObterResumo e veja a pontuação (Se você já tiver executado este método antes, então o valor vai estar cacheado com um tempo de expiração de 2 minutos, portanto, você pode ter que aguardar um pouco para receber um valor atualizado)
     
 ## Considerações sobre o projeto <a name = "consideracoes"></a>
 1. Hoje só é possível convidar 1 jogador para a partida, ou seja, o sistema ainda não suporta partidas de duplas
