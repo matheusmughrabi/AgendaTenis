@@ -65,7 +65,7 @@ public class PartidasController : ControllerBase
     {
         var usuarioEhAdversarioDaPartida = await policeHandler.Validar(command.Id);
         if (!usuarioEhAdversarioDaPartida)
-            return Unauthorized();
+            return Forbid();
 
         var response = await _mediator.Send(command);
         return Ok(response);
@@ -83,9 +83,9 @@ public class PartidasController : ControllerBase
     [Authorize]
     public async Task<IActionResult> RegistrarPlacar([FromServices] DesafianteDaPartidaPoliceHandler policeHandler, [FromBody] RegistrarPlacarCommand command)
     {
-        var usuarioEhJogadorDaPartida = await policeHandler.Validar(command.Id);
-        if (!usuarioEhJogadorDaPartida)
-            return Unauthorized();
+        var usuarioEhDesafianteDaPartida = await policeHandler.Validar(command.Id);
+        if (!usuarioEhDesafianteDaPartida)
+            return Forbid();
 
         var response = await _mediator.Send(command);
         return Ok(response);
@@ -95,9 +95,9 @@ public class PartidasController : ControllerBase
     [Authorize]
     public async Task<IActionResult> ResponderPlacar([FromServices] AdversarioDaPartidaPoliceHandler policeHandler, [FromBody] ResponderPlacarCommand command)
     {
-        var usuarioEhJogadorDaPartida = await policeHandler.Validar(command.Id);
-        if (!usuarioEhJogadorDaPartida)
-            return Unauthorized();
+        var usuarioEhAdversarioDaPartida = await policeHandler.Validar(command.Id);
+        if (!usuarioEhAdversarioDaPartida)
+            return Forbid();
 
         var response = await _mediator.Send(command);
         return Ok(response);
